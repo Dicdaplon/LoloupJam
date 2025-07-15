@@ -1,0 +1,83 @@
+[
+  {
+    "titre": "Let It Be - The Beatles",
+    "bpm": 72,
+    "tonalite": "C",
+    "style": "Ballade Rock",
+    "mesures": [
+      "C | G | Am | F",
+      "C | G | F | C"
+    ]
+  },
+  {
+    "titre": "Stand By Me - Ben E. King",
+    "bpm": 110,
+    "tonalite": "A",
+    "style": "Soul / R&B",
+    "mesures": [
+      "A | F#m | D | E",
+      "A | F#m | D | E"
+    ]
+  },
+  {
+    "titre": "Autumn Leaves - Jazz Standard",
+    "bpm": 90,
+    "tonalite": "Gm",
+    "style": "Jazz 4/4",
+    "mesures": [
+      "Am7♭5 | D7 | Gm | Gm",
+      "Cm7 | F7 | Bbmaj7 | Bbmaj7",
+      "Am7♭5 | D7 | Gm | Gm",
+      "Cm7 | F7 | Bbmaj7 | D7"
+    ]
+  },
+  {
+    "titre": "Take Five - Dave Brubeck",
+    "bpm": 170,
+    "tonalite": "E♭m",
+    "style": "Jazz 5/4",
+    "mesures": [
+      "E♭m | B♭m7 | E♭m | B♭m7 | E♭m",
+      "F#7 | B♭m7 | / | / | /"
+    ]
+  },
+  {
+    "titre": "Misty - Erroll Garner",
+    "bpm": 65,
+    "tonalite": "Eb",
+    "style": "Slow Jazz Ballad",
+    "mesures": [
+      "Ebmaj7 | Bbm7 | Abm7 | Db7",
+      "Gbmaj7 | Fm7 | Bb7 | Ebmaj7"
+    ]
+  },
+  {
+    "titre": "Reggae 2/4",
+    "bpm": 80,
+    "tonalite": "C",
+    "style": "Reggae 2/4",
+    "mesures": [
+      "C\\C | F\\F | G\\G | C\\C"
+    ]
+  },
+  {
+    "titre": "Test Alignement",
+    "bpm": 100,
+    "tonalite": "C",
+    "style": "Structure complexe",
+    "mesures": [
+      "C\\G | Am\\F | G7 | C",
+      "D\\D7 | E | F#m | Bm\\E"
+    ]
+  },
+  {
+    "titre": "Expérimental Fusion",
+    "bpm": 95,
+    "tonalite": "Em",
+    "style": "Fusion Jazz Funk",
+    "mesures": [
+      "Em11 | B13\\C7 | A7♭9 | /",
+      "Fmaj7#11 | C#dim\\E7 | G13 | N.C."
+    ]
+  }
+]

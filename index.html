@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test Pixi + Menu</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #000;
+      font-family: sans-serif;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .home {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .menu a {
+      color: white;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem 2rem;
+      margin: 1rem;
+      border-radius: 12px;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="home">
+    <h1>🎸 Jam Session</h1>
+    <div class="menu">
+      <a href="info.html">📋 Infos</a>
+      <a href="paroles.html">🎤 Paroles</a>
+      <a href="tablature.html">🎼 Tablatures</a>
+    </div>
+  </div>
+
+  <!-- ✅ PixiJS v6 (stable) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.5.8/browser/pixi.min.js"></script>
+  <script>
+    const app = new PIXI.Application({
+      forceCanvas: true,
+      width: window.innerWidth,
+      height: window.innerHeight,
+      backgroundAlpha: 0,      // ✅ Transparent background
+      resolution: window.devicePixelRatio || 1,
+      antialias: true
+    });
+
+    document.body.appendChild(app.view);
+
+    // ✅ Carré rouge au centre
+    const square = new PIXI.Graphics();
+    square.beginFill(0xFF0000);
+    square.drawRect(0, 0, 120, 120);
+    square.endFill();
+    square.x = (app.screen.width - 120) / 2;
+    square.y = (app.screen.height - 120) / 2;
+    app.stage.addChild(square);
+  </script>
+</body>
+</html>
