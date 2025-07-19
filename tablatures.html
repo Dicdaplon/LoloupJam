@@ -14,7 +14,14 @@
 
   <!-- p5.js pour le fond -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
-  <script src="./assets/js/visual/background.js"></script>
+  <script src="assets/js/config/config.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const script = document.createElement('script');
+    script.src = 'assets/js/visual/background.js';
+    document.body.appendChild(script);
+  });
+</script>
 </head>
 <body class="scrollable"></body>
 <body>

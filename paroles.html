@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <script src="assets/js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
   <meta charset="UTF-8">
   <title>Paroles</title>
   <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
-<body>
+<body class="scrollable">
   <h1>🎤 Paroles</h1>
   <select id="selector"></select>
   <pre id="contenu-paroles" class="paroles"></pre>
 
-  <script src="./assets/js/paroles/paroles.js"></script>
+  <div id="background-holder"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
+  <script src="./assets/js/config/config.js"></script>
+  <script src="./assets/js/paroles/getParoles.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const script = document.createElement('script');
+      script.src = 'assets/js/visual/background.js';
+      document.body.appendChild(script);
+    });
+  </script>
 </body>
 </html>
 
-<script src="./assets/js/paroles/getParoles.js"></script>
