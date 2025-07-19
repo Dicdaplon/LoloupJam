@@ -1,0 +1,129 @@
+/* Reset + base */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  font-family: 'Baloo 2', sans-serif;
+  color: white;
+  background: transparent;
+}
+
+/* Fond p5 */
+canvas {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Page d'accueil (si utilisée) */
+main {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 1rem;
+}
+
+button {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+}
+
+/* Infos du morceau */
+#morceau-infos {
+  text-align: center;
+  padding: 1rem;
+}
+
+#description {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+/* Clignotement tempo */
+#tempo-led {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 1rem auto;
+  background: #444;
+  transition: background 0.1s;
+}
+#tempo-led.active {
+  background: #41ead4;
+}
+#selection-container {
+  text-align: center;
+  padding: 4rem 2rem;
+  margin-top: 10vh;
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+}
+
+#selector {
+  padding: 0.8rem 1.2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #222;
+  color: white;
+}
+
+#grille-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+#grille-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.ligne {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+}
+
+.cellule {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.4rem;
+  border-radius: 12px;
+  color: #fff;
+  font-family: monospace;
+  font-size: clamp(1.4rem, 4vw, 2rem); /* Responsive */
+  text-align: center;
+  min-width: 80px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  transition: background 0.2s;
+}
+
+.rep {
+  grid-column: span 4;
+  text-align: right;
+  font-size: 1rem;
+  color: #aaa;
+  margin-top: 0.3rem;
+}

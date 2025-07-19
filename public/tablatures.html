@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grille - Jam Session</title>
+
+  <!-- Police -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet" />
+
+  <!-- Style -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <!-- p5.js pour le fond -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
+  <script src="../assets/js/visual/background.js"></script>
+</head>
+<body>
+<div id="background-holder"></div>
+  <!-- Sélection du morceau -->
+  <section id="selection-container">
+    <h1>Choisis ton morceau</h1>
+    <select id="selector">
+      <option disabled selected>-- Sélectionne un titre --</option>
+    </select>
+  </section>
+
+  <!-- Affichage de la grille -->
+  <section id="grille-section" class="hidden">
+    <div id="morceau-infos">
+      <h2 id="titre"></h2>
+      <p id="description"></p>
+      <div id="tempo-led"></div>
+    </div>
+    <div id="grille-container"></div>
+  </section>
+
+  <!-- Script pour charger et afficher la grille -->
+   <script src="../assets/js/tablatures/tablatures.js"></script>
+</body>
+</html>

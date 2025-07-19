@@ -6,7 +6,7 @@ const noteChars = ['♪', '♫', '♩', '♬'];
 let baloo;
 
 function preload() {
-  baloo = loadFont('assets/fonts/Baloo2-Regular.ttf');
+  baloo = loadFont('../../assets/fonts/Baloo2-Regular.ttf');
 }
 
 function setup() {
