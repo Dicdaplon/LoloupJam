@@ -9,6 +9,7 @@ html, body {
   background: transparent;
 }
 
+
 /* Fond p5 */
 canvas {
   position: fixed !important;
@@ -37,7 +38,7 @@ button {
 /* Infos du morceau */
 #morceau-infos {
   text-align: center;
-  padding: 1rem;
+  padding: 0rem;
 }
 
 #description {
@@ -59,8 +60,8 @@ button {
 }
 #selection-container {
   text-align: center;
-  padding: 4rem 2rem;
-  margin-top: 10vh;
+  padding: 1rem 1rem;
+  margin-top: 1vh;
   backdrop-filter: blur(8px);
   background: rgba(0, 0, 0, 0.4);
   border-radius: 1rem;
@@ -97,33 +98,79 @@ button {
   box-sizing: border-box;
 }
 .ligne {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  display: flex;
+  flex-wrap: nowrap;
   gap: 1rem;
-  justify-items: center;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .cellule {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1.4rem;
+  border: 2px solid #ff85f9a1;
+  padding: 1rem 2rem;
   border-radius: 12px;
-  color: #fff;
+  background: rgba(173, 194, 57, 0.267);
   font-family: monospace;
-  font-size: clamp(1.4rem, 4vw, 2rem); /* Responsive */
+  font-size: 2rem;
+  min-width: 5ch;
   text-align: center;
-  min-width: 80px;
-  aspect-ratio: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
-  transition: background 0.2s;
+  box-shadow: 0 0 10px rgba(255,255,255,0.2);
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.repetition-badge {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  background: #ff9;
+  color: #000;
+  font-size: 0.8rem;
+  padding: 2px 5px;
+  border-radius: 6px;
+  font-weight: bold;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+.cellule.active {
+    box-shadow:
+    0 0 10px #0ff,
+    0 0 20px #0ff,
+    0 0 30px #0ff,
+    0 0 40px #0ff;
+  background: rgba(0, 255, 255, 0.2);
+  border-color: #0ff;
+  transition: box-shadow 0.2s, background 0.2s;
 }
 
 .rep {
-  grid-column: span 4;
-  text-align: right;
-  font-size: 1rem;
-  color: #aaa;
-  margin-top: 0.3rem;
+  margin-left: 1rem;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 2rem;
+  color: #ff9;
 }
+
+body.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
+body.scrollable {
+  overflow-y: auto;
+}
+
+.grille {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.mesure {
+  border: 1px solid #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  font-family: monospace;
+}
+

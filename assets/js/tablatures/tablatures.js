@@ -11,29 +11,40 @@ let intervalId = null;
       }, interval);
     }
 
-    function renderGrille(grille) {
+function renderGrille(grille) {
   const container = document.getElementById("grille-container");
   container.innerHTML = "";
 
   grille.forEach(ligne => {
     const rowWrapper = document.createElement("div");
-
     const row = document.createElement("div");
     row.className = "ligne";
 
-    ligne.mesures.forEach(accord => {
+    ligne.mesures.forEach((accord, i) => {
       const cell = document.createElement("div");
       cell.className = "cellule";
       cell.textContent = accord;
+
+      // Effet néon au clic
+      cell.addEventListener("click", () => {
+        cell.classList.add("active");
+        setTimeout(() => {
+          cell.classList.remove("active");
+        }, 1500);
+      });
+
+      // Badge de répétition sur la dernière cellule
+      if (i === ligne.mesures.length - 1 && ligne.repetitions > 1) {
+        const badge = document.createElement("span");
+        badge.className = "repetition-badge";
+        badge.textContent = `×${ligne.repetitions}`;
+        cell.appendChild(badge);
+      }
+
       row.appendChild(cell);
     });
 
-    const rep = document.createElement("div");
-    rep.className = "rep";
-    rep.textContent = `×${ligne.repetitions}`;
-
     rowWrapper.appendChild(row);
-    rowWrapper.appendChild(rep);
     container.appendChild(rowWrapper);
   });
 }
