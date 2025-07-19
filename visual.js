@@ -1,150 +1,164 @@
-// === Paramètres rythme / animation ===
-let notes = [];
-let bpm = 90;
-let beatMs = 60000 / bpm;
-let lastClickTime = 0;
-let lastBeat = 0;
 
-// === Setup p5.js ===
+
+let buttons = [];
+let notes = [];
+const noteChars = ['♪', '♫', '♩', '♬'];
+let baloo;
+
+function preload() {
+  baloo = loadFont('assets/fonts/Baloo2-Regular.ttf');
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noStroke();
-  textFont('Arial');
   textAlign(CENTER, CENTER);
-  console.log("✔ p5 setup lancé");
-}
+  textSize(16);
+  textFont(baloo);
 
-// === Boucle principale ===
-function draw() {
-  background(0, 60); // semi-transparent = effet de traînée
-  drawSmoothPulse();
-
-  // Notes animées
-  for (let note of notes) {
-    note.update();
-    note.display();
-  }
-
-  // Génère automatiquement une note visuelle toutes les ~20 frames
-  if (frameCount % 20 === 0) {
-    notes.push(new Note());
-  }
-
-  // Limite le nombre de notes
-  if (notes.length > 100) {
-    notes.splice(0, 1);
-  }
-}
-
-// === Clics → feedback visuel + message flottant ===
-function mousePressed() {
-  let now = millis();
-  let delta = now - lastClickTime;
-  lastClickTime = now;
-  let rhythmData = evaluateTiming(delta);
-
-  notes.push(new Note(true, rhythmData.label, rhythmData.color));
-
-  // Optionnel : message flottant si chat.js est chargé
-  if (typeof showFloatingMessage === 'function') {
-    showFloatingMessage(rhythmData.label);
-  }
-}
-
-// === Effet pulsation centrale ===
-function drawSmoothPulse() {
-  let t = (millis() - lastBeat) % beatMs;
-  let pct = t / beatMs;
-  let glow = sin(pct * TWO_PI);
-  let size = map(glow, 0, 1, 80, 240);
-  let alpha = map(glow, 0, 1, 10, 60);
-
-  push();
-  translate(width / 2, height / 2);
-  fill(0, 255, 255, alpha);
-  ellipse(0, 0, size);
-  pop();
-}
-
-// === Évaluation du rythme tapé ===
-function evaluateTiming(delta) {
-  let grid = [
-    { label: '1 temps', ms: beatMs },
-    { label: '½ temps', ms: beatMs / 2 },
-    { label: '⅓ temps', ms: beatMs / 3 },
-    { label: '¼ temps', ms: beatMs / 4 },
-    { label: '2 temps', ms: beatMs * 2 }
+  buttons = [
+    new CircleButton("Tablatures", "tablatures.html", width * 0.3, height / 2, color('#FF206E')),
+    new CircleButton("Paroles", "paroles.html", width * 0.5, height / 2, color('#41EAD4')),
+    new CircleButton("Infos", "info.html", width * 0.7, height / 2, color('#FBFF12')),
   ];
 
-  let closest = grid.reduce((a, b) =>
-    Math.abs(delta - a.ms) < Math.abs(delta - b.ms) ? a : b
-  );
-
-  let relativeError = Math.abs(delta - closest.ms) / closest.ms * 100;
-
-  let color;
-  if (relativeError <= 5) {
-    color = colorFromHex("#00ff00");
-  } else if (relativeError <= 15) {
-    color = colorFromHex("#ffff00");
-  } else {
-    color = colorFromHex("#ff3333");
-  }
-
-  let label = `${closest.label} | ${relativeError.toFixed(1)}%`;
-  return { label, color };
 }
 
-// === Convertisseur hex vers p5.Color ===
-function colorFromHex(hex) {
-  if (typeof window.color !== "function") {
-    console.warn("⚠️ p5.color() n'est pas encore dispo");
-    return [255, 255, 255]; // fallback blanc
-  }
+function draw() {
+  // Fond avec transparence pour trainées
+background(0, 20);
 
-  hex = hex.replace(/^#/, "");
-  const bigint = parseInt(hex, 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-  return window.color(r, g, b);
+// Générer des notes aléatoires
+if (random(1) < 0.1) {
+  notes.push(new NoteParticle());
 }
 
-// === Classe Note ===
-class Note {
-  constructor(fromClick = false, rhythm = '', customColor = null) {
+// Afficher les notes
+for (let i = notes.length - 1; i >= 0; i--) {
+  notes[i].update();
+  notes[i].display();
+  if (notes[i].isDead()) {
+    notes.splice(i, 1);
+  }
+}
+
+// Titre principal
+push();
+textFont(baloo);
+textSize(36);
+fill(255);
+textAlign(CENTER, TOP);
+fill(0, 180);
+text("Loloup Jam LIVE", width / 2 + 2, 32 + 2); // ombre
+fill(255);
+text("Loloup Jam LIVE", width / 2, 32); // titre principal
+pop();
+  for (let btn of buttons) {
+    btn.update();
+    btn.display();
+  }
+}
+
+function mousePressed() {
+  for (let btn of buttons) {
+    if (btn.isHovered(mouseX, mouseY)) {
+      window.location.href = btn.link;
+    }
+  }
+}
+
+
+
+class CircleButton {
+  constructor(label, link, x, y, c) {
+    this.label = label;
+    this.link = link;
+    this.x = x;
+    this.y = y;
+    this.baseSize = 100;
+    this.c = c;
+    this.pulse = random(TWO_PI);
+  }
+
+  update() {
+    this.pulse += 0.05;
+  }
+
+  display() {
+  let size = this.baseSize + sin(this.pulse) * 10;
+
+  // Shake léger
+  let jitterX = random(-1, 1);
+  let jitterY = random(-1, 1);
+
+  // Glow (cercle flou derrière)
+  push();
+  noStroke();
+  for (let i = 4; i >= 1; i--) {
+    fill(red(this.c), green(this.c), blue(this.c), 20);
+    ellipse(this.x + jitterX, this.y + jitterY, size + i * 10);
+  }
+  pop();
+
+  // Déphasage RGB (légers cercles en couleur décalée)
+  push();
+  noStroke();
+  fill(255, 0, 0, 100);
+  ellipse(this.x + 2, this.y - 1, size);
+  fill(0, 255, 255, 100);
+  ellipse(this.x - 2, this.y + 1, size);
+  pop();
+
+  // Cercle principal
+  fill(this.c);
+  ellipse(this.x, this.y, size);
+
+  // Texte avec ombre
+  push();
+  fill(0, 180);
+text(this.label, this.x + 2, this.y + 2);
+fill(255);
+text(this.label, this.x, this.y);
+pop(); // ✅ Manquait ici
+}
+
+isHovered(px, py) {
+  let size = this.baseSize + sin(this.pulse) * 10;
+  let d = dist(px, py, this.x, this.y);
+  return d < size / 2;
+}
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+class NoteParticle {
+  constructor() {
     this.x = random(width);
-    this.y = fromClick ? random(height * 0.4, height * 0.6) : height + 20;
-    this.size = fromClick ? 64 : random(24, 48);
-    this.speed = fromClick ? 0.8 : random(1.5, 2.5);
+    this.y = height + 20;
+    this.speed = random(0.5, 2);
     this.alpha = 255;
-    this.symbols = ['♪', '♩', '♫', '♬'];
-    this.char = random(this.symbols);
-    this.color = customColor || window.color(random(100, 255), random(100, 255), 255);
-    this.fromClick = fromClick;
-    this.rhythm = rhythm;
+    this.char = random(noteChars);
+    this.size = random(16, 24);
+    this.color = color(random(200, 255), random(100, 255), random(200, 255));
   }
 
   update() {
     this.y -= this.speed;
-    this.alpha -= 2;
+    this.alpha -= 1.5;
   }
 
   display() {
-    push();
-    textSize(this.size);
-    for (let i = 3; i >= 1; i--) {
-      fill(red(this.color), green(this.color), blue(this.color), this.alpha / i);
-      text(this.char, this.x, this.y);
-    }
-
-    if (this.fromClick && this.alpha > 100) {
-      textSize(14);
-      fill(255, 255, 255, this.alpha);
-      text(this.rhythm, this.x, this.y - this.size);
-    }
-    pop();
-  }
+  push();
+  textFont('Georgia');  // ou 'Arial', ou autre police système compatible
+  fill(red(this.color), green(this.color), blue(this.color), this.alpha);
+  textSize(this.size);
+  text(this.char, this.x, this.y);
+  pop();
 }
 
-console.log("✔ visual.js bien chargé");
+  isDead() {
+    return this.alpha <= 0;
+  }
+}
