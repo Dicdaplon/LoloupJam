@@ -7,29 +7,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: black;
-      font-family: sans-serif;
-    }
 
-    canvas {
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
 
-    .menu {
-      position: relative;
-      z-index: 10;
-      color: white;
-      text-align: center;
-      padding-top: 20vh;
-    }
 
     .menu a {
       display: inline-block;
@@ -121,44 +100,9 @@
   <button onclick="sendMessage()">➤</button>
 </div>
   </div>
-
+<script src="chat.js"></script>
+<script src="firebase-config.js"></script>
   <script>
-    // 🔥 Remplace par la vraie config Firebase de ton projet
-    const firebaseConfig = {
-      apiKey: "TA_CLÉ",
-      authDomain: "ton-projet.firebaseapp.com",
-      databaseURL: "https://ton-projet.firebaseio.com",
-      projectId: "ton-projet",
-      storageBucket: "ton-projet.appspot.com",
-      messagingSenderId: "XXX",
-      appId: "1:XXX:web:XXX"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-function sendMessage() {
-  const input = document.getElementById("chat-input");
-  const text = input.value.trim();
-  if (!text) return;
-
-  db.ref("chat").push({
-    user: "🎤",
-    text: text,
-    time: Date.now()
-  });
-  input.value = "";
-}
-
-function listenToChat() {
-  db.ref("chat").on("child_added", snapshot => {
-    const msg = snapshot.val();
-    showFloatingMessage(`${msg.user} ${msg.text}`);
-  });
-}
-
-    window.addEventListener("load", listenToChat);
-
     // 🎶 p5.js visual
     let notes = [];
     let bpm = 90;
@@ -167,12 +111,18 @@ function listenToChat() {
     let lastBeat = 0;
     let flashAlpha = 0;
 
-    function setup() {
-      createCanvas(windowWidth, windowHeight);
-      noStroke();
-      textFont('Arial');
-      textAlign(CENTER, CENTER);
-    }
+function setup() {
+  let fullHeight = max(windowHeight, document.body.scrollHeight);
+  createCanvas(windowWidth, fullHeight);
+  noStroke();
+  textFont('Arial');
+  textAlign(CENTER, CENTER);
+}
+
+function windowResized() {
+  let fullHeight = max(windowHeight, document.body.scrollHeight);
+  resizeCanvas(windowWidth, fullHeight);
+}
 
     function draw() {
       background(0, 60);
@@ -242,34 +192,6 @@ function listenToChat() {
       return { label, color };
     }
 
-    function showFloatingMessage(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  div.style.position = "fixed";
-  div.style.left = `${10 + Math.random() * 80}%`;
-  div.style.top = `${20 + Math.random() * 60}%`;
-  div.style.color = "white";
-  div.style.fontSize = "1.2rem";
-  div.style.fontFamily = "sans-serif";
-  div.style.padding = "0.5rem 1rem";
-  div.style.background = "rgba(0,0,0,0.5)";
-  div.style.border = "1px solid #0ff";
-  div.style.borderRadius = "20px";
-  div.style.zIndex = 15;
-  div.style.opacity = 0;
-  div.style.transition = "opacity 0.3s";
-
-  document.body.appendChild(div);
-  requestAnimationFrame(() => {
-    div.style.opacity = 1;
-  });
-
-  setTimeout(() => {
-    div.style.opacity = 0;
-    setTimeout(() => div.remove(), 1000);
-  }, 4000);
-}
-
     function colorFromHex(hex) {
       return color(hex);
     }
@@ -309,6 +231,7 @@ function listenToChat() {
         pop();
       }
     }
+
   </script>
 </body>
 </html>
