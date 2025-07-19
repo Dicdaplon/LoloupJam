@@ -6,7 +6,7 @@ const noteChars = ['♪', '♫', '♩', '♬'];
 let baloo;
 
 function preload() {
-  baloo = loadFont('../../assets/fonts/Baloo2-Regular.ttf');
+  baloo = loadFont(PATHS.fonts + 'Baloo2-Regular.ttf');
 }
 
 function setup() {
@@ -17,9 +17,9 @@ function setup() {
   textFont(baloo);
 
   buttons = [
-    new CircleButton("Tablatures", "public/tablatures.html", width * 0.3, height / 2, color('#FF206E')),
-    new CircleButton("Paroles", "public/paroles.html", width * 0.5, height / 2, color('#41EAD4')),
-    new CircleButton("Infos", "public/info.html", width * 0.7, height / 2, color('#FBFF12')),
+    new CircleButton("Tablatures", "tablatures.html", width * 0.3, height / 2, color('#FF206E')),
+    new CircleButton("Paroles", "paroles.html", width * 0.5, height / 2, color('#41EAD4')),
+    new CircleButton("Infos", "info.html", width * 0.7, height / 2, color('#FBFF12')),
   ];
 
 }
