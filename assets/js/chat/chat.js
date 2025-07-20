@@ -1,49 +1,41 @@
-function sendMessage() {
-  const input = document.getElementById("chat-input");
-  const text = input.value.trim();
-  if (!text) return;
+// chat.js
+import { db } from '../firebase/firebase-config.js';
+import { ref, push, onChildAdded } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js';
 
-  db.ref("chat").push({
-    user: "🎤",
-    text: text,
-    time: Date.now()
-  });
-  input.value = "";
-}
+const chatInput = document.getElementById('chat-input');
+const form = document.getElementById('chat-form');
 
-function listenToChat() {
-  db.ref("chat").on("child_added", snapshot => {
-    const msg = snapshot.val();
-    showFloatingMessage(`${msg.user} ${msg.text}`);
-  });
-}
+// Référence Firebase pour les messages
+const messagesRef = ref(db, 'messages');
 
-window.addEventListener("load", listenToChat);
+// Envoyer un message
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const text = chatInput.value.trim();
+  if (text !== '') {
+    push(messagesRef, {
+      text: text,
+      timestamp: Date.now()
+    });
+    chatInput.value = '';
+  }
+});
 
-function showFloatingMessage(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  div.style.position = "fixed";
-  div.style.left = `${10 + Math.random() * 80}%`;
-  div.style.top = `${20 + Math.random() * 60}%`;
-  div.style.color = "white";
-  div.style.fontSize = "1.2rem";
-  div.style.fontFamily = "sans-serif";
-  div.style.padding = "0.5rem 1rem";
-  div.style.background = "rgba(0,0,0,0.5)";
-  div.style.border = "1px solid #0ff";
-  div.style.borderRadius = "20px";
-  div.style.zIndex = 15;
-  div.style.opacity = 0;
-  div.style.transition = "opacity 0.3s";
+onChildAdded(messagesRef, (snapshot) => {
+  const message = snapshot.val();
+  displayMessage(message.text); // juste affichage, pas de push()
+});
 
-  document.body.appendChild(div);
-  requestAnimationFrame(() => {
-    div.style.opacity = 1;
-  });
+// Affichage overlay temporaire
+function displayMessage(text) {
+  const el = document.createElement('div');
+  el.className = 'floating-message';
+  el.innerText = text;
+  document.body.appendChild(el);
 
+  // Animation de disparition
   setTimeout(() => {
-    div.style.opacity = 0;
-    setTimeout(() => div.remove(), 1000);
-  }, 4000);
+    el.classList.add('fade-out');
+    setTimeout(() => el.remove(), 1000);
+  }, 4000); // 4s visible + 1s fade
 }

@@ -399,3 +399,48 @@ h1 {
 
   
 }
+
+
+#chat-form {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  z-index: 999;
+}
+
+#chat-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.floating-message {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 10px 16px;
+  border-radius: 16px;
+  font-weight: bold;
+  animation: pop 0.3s ease;
+  z-index: 998;
+  pointer-events: none;
+}
+
+@keyframes pop {
+  0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
