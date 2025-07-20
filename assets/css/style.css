@@ -2,17 +2,15 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100vh;
-  overflow: hidden;
+  height: var(--app-height);
+  min-height: 100vh; /* fallback */
   font-family: 'Baloo 2', sans-serif;
-  background: transparent;
-  color: white;
+  background: #111;
+  color: #f1f1f1;
 }
-
-
 /* Fond p5 */
 canvas {
-  position: fixed !important;
+  position: fixed ;
   top: 0;
   left: 0;
   z-index: -1;
@@ -26,7 +24,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: var(--app-height);
   gap: 1rem;
 }
 
@@ -83,7 +81,7 @@ button {
 #grille-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   padding: 2rem;
   box-sizing: border-box;
 }
@@ -108,7 +106,7 @@ button {
 
 .cellule {
   border: 2px solid #ff85f9a1;
-  padding: 1rem 2rem;
+  padding: 0.5rem 1rem;
   border-radius: 12px;
   background: rgba(173, 194, 57, 0.267);
   font-family: monospace;
@@ -153,7 +151,7 @@ button {
 
 body.no-scroll {
   overflow: hidden;
-  height: 100vh;
+  height: var(--app-height);
 }
 
 body.scrollable {
@@ -176,17 +174,6 @@ body.scrollable {
 
 
 
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #111;
-  color: #f1f1f1;
-  font-family: 'Baloo 2', sans-serif;
-}
 
 h1 {
   margin: 1rem 0;
@@ -207,12 +194,7 @@ h1 {
   box-shadow: 0 0 5px #0005;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
+
 
 #contenu-paroles {
   flex-grow: 1;                    /* Remplit le reste de l’écran */
@@ -228,4 +210,65 @@ body {
   font-size: 1.4rem;
   line-height: 1.6;
   box-sizing: border-box;
+}
+
+
+@media (orientation: landscape) {
+  body {
+    min-height: 100dvh;
+    font-size: 0.9rem;
+  }
+
+  #grille-section {
+    padding: 1rem 2rem;
+  }
+
+  .cellule {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media screen and (orientation: portrait) {
+
+  #logo {
+  position: absolute;
+  top:7%;
+  left: 50%;
+  transform: translateX(-50%);
+  width:  60vw;
+  filter: drop-shadow(0 0 5px #0ff)
+          drop-shadow(0 0 10px #0ff)
+          drop-shadow(0 0 20px #0ff);
+  animation: glowPulse 2s infinite ease-in-out;
+  z-index: 10;
+}
+}
+
+@media screen and (orientation: landscape) {
+
+  #logo {
+  position: absolute;
+  top:60%;
+  left: 10%;
+  transform: translateX(-50%);
+  width: 20vw;
+  filter: drop-shadow(0 0 5px #0ff)
+          drop-shadow(0 0 10px #0ff)
+          drop-shadow(0 0 20px #0ff);
+  animation: glowPulse 2s infinite ease-in-out;
+  z-index: 10;
+}
+}
+@keyframes glowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px #0ff)
+            drop-shadow(0 0 10px #0ff)
+            drop-shadow(0 0 20px #0ff);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px #0ff)
+            drop-shadow(0 0 20px #0ff)
+            drop-shadow(0 0 30px #0ff);
+  }
 }

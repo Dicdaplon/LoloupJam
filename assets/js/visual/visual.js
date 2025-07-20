@@ -4,9 +4,11 @@ let buttons = [];
 let notes = [];
 const noteChars = ['♪', '♫', '♩', '♬'];
 let baloo;
+let logo;
 
 function preload() {
   baloo = loadFont(PATHS.fonts + 'Baloo2-Regular.ttf');
+  logo = loadImage(PATHS.data +'HDexportLogo.png')
 }
 
 function setup() {
@@ -25,6 +27,7 @@ function setup() {
 }
 
 function draw() {
+
   // Fond avec transparence pour trainées
 background(0, 20);
 
@@ -131,22 +134,51 @@ isHovered(px, py) {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  repositionButtons();
 }
 
+function repositionButtons() {
+  let isPortrait = height > width;
+   if (buttons.length === 3) {
+    if (!isPortrait)
+    {
+    buttons[0].x = width * 0.3;
+    buttons[0].y = height / 2;
+
+    buttons[1].x = width * 0.5;
+    buttons[1].y = height / 2;
+
+    buttons[2].x = width * 0.7;
+    buttons[2].y = height / 2;
+    }
+    else
+    {
+      buttons[0].x = width / 2;
+      buttons[0].y = height * 0.4;
+
+      buttons[1].x = width / 2;
+      buttons[1].y = height * 0.58;
+
+      buttons[2].x = width / 2;
+      buttons[2].y = height * 0.76;
+    }
+
+  }
+}
 class NoteParticle {
   constructor() {
     this.x = random(width);
     this.y = height + 20;
-    this.speed = random(0.5, 2);
+    this.speed = random(0.5, 4);
     this.alpha = 255;
     this.char = random(noteChars);
-    this.size = random(16, 24);
+    this.size = random(12, 35);
     this.color = color(random(200, 255), random(100, 255), random(200, 255));
   }
 
   update() {
     this.y -= this.speed;
-    this.alpha -= 1.5;
+    this.alpha -= 1.0;
   }
 
   display() {
@@ -161,4 +193,5 @@ class NoteParticle {
   isDead() {
     return this.alpha <= 0;
   }
+  
 }

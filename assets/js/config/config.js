@@ -1,3 +1,4 @@
+// Détection de l'environnement local ou GitHub Pages
 const IS_LOCAL = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
 const BASE_PATH = IS_LOCAL ? '' : '/LoloupJam';
 
@@ -6,3 +7,12 @@ const PATHS = {
   data: `${BASE_PATH}/data/`,
   paroles: `${BASE_PATH}/paroles/`
 };
+
+// Gestion dynamique de la hauteur de l'app (mobile-friendly)
+function updateAppHeight() {
+  document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+}
+
+window.addEventListener('resize', updateAppHeight);
+window.addEventListener('orientationchange', updateAppHeight);
+updateAppHeight();
