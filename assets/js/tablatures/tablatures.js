@@ -48,7 +48,7 @@ function renderGrille(grille) {
     container.appendChild(rowWrapper);
   });
 }
-    fetch("../data/tablatures.json")
+    fetch(PATHS.data+"/tablatures.json")
       .then(res => res.json())
       .then(morceaux => {
         const selector = document.getElementById("selector");
