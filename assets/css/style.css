@@ -421,26 +421,28 @@ h1 {
   font-size: 1rem;
 }
 
-.floating-message {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.85);
-  padding: 10px 16px;
-  border-radius: 16px;
-  font-weight: bold;
-  animation: pop 0.3s ease;
-  z-index: 998;
-  pointer-events: none;
-}
-
 @keyframes pop {
   0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
   100% { transform: translateX(-50%) scale(1); opacity: 1; }
 }
 
+.floating-message {
+  position: fixed;
+  font-size: 1.4rem;
+  font-weight: bold;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 999;
+  transition: opacity 1s ease;
+  white-space: nowrap;
+}
+
+.neon {
+  font-family: 'Arial Black', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 .fade-out {
   opacity: 0;
-  transition: opacity 1s ease;
 }
