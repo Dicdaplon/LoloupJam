@@ -1,13 +1,81 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <script src="assets/js/config.js"></script>
-  <meta charset="UTF-8">
-  <title>Infos Jam</title>
-  <link rel="stylesheet" href="./assets/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infos - Jam Session</title>
+
+  <!-- Police -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+
+  <!-- Fond animé -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
+  <script src="./assets/js/config/config.js"></script>
 </head>
-<body>
-  <h1>🎶 Infos de la Jam</h1>
-  <p>Bienvenue dans la jam session ! Voici les infos pratiques...</p>
+
+<body class="scrollable">
+  <div id="background-holder"></div>
+
+  <main class="info-content">
+    <h1>🎶 Les Loloup Jam</h1>
+
+    <p>Les jam du Cavendish ont lieu une fois par mois.</p>
+    <p><strong>📅 Prochaine date :</strong> (pas encore définie)</p>
+    <p><strong>📍 Adresse :</strong> 2 Rue Professeur Rollet, 69008 Lyon<br>
+    Sortie Manufacture des Tabacs – proche métro, sans soucis.</p>
+
+    <p><strong>🕗 Départ :</strong> 20h</p>
+
+    <p><strong>🎸 Sur place :</strong> guitare électrique, basse, micro, batterie, clavier.</p>
+
+    <p>Les jam sont <strong>ouvertes à toutes et tous</strong>, tous niveaux et tous styles.</p>
+
+    <p>
+      Principalement basées sur l’improvisation, mais nous jouons aussi quelques morceaux au cours de la soirée.
+      La seule règle : <strong>partage et bienveillance</strong> 💜.
+    </p>
+
+    <p>
+      Amenez un bon esprit et nous vous donnerons un grand sourire 😊.
+    </p>
+
+    <p>
+      📸 Des photos sont prises (quand j’ai le temps ^^) et publiées sur Instagram :
+      <strong>@loloup_prod</strong><br>
+      Vous pouvez bien sûr me demander les photos en tant que participant.
+    </p>
+
+    <p>
+      En plus de la jam du Cavendish, nous avons aussi :
+      <ul>
+        <li>🎶 Les jam de la salle des Rancy (reprise en septembre)</li>
+        <li>🎹 Des sessions hebdo en petit comité pour les débutants (sans public, reprise en septembre)</li>
+      </ul>
+    </p>
+
+    <p>
+      Concernant ce site (encore en construction) :
+      n’hésitez pas à faire vos retours (en vrai ou par message Instagram).
+    </p>
+
+    <p>
+      🧪 Commande disponible par le chat :<br>
+      <code>/all jour</code> — pour afficher les messages d’un jour<br>
+      <code>/all jourMoisAnnée HeureDébut HeureFin</code> — pour filtrer une plage horaire<br>
+      Exemple : <code>/all 210725 19 00</code> → pour voir tous les messages de la jam du 21 juillet, entre 19h et minuit ✨
+    </p>
+
+    <p>Contemplez les bêtises… ou les messages d’amour 💌</p>
+  </main>
+
+  <!-- Charger le fond animé -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const script = document.createElement('script');
+      script.src = './assets/js/visual/background.js';
+      document.body.appendChild(script);
+    });
+  </script>
 </body>
 </html>

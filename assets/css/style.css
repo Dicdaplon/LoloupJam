@@ -5,7 +5,7 @@ html, body {
   height: var(--app-height);
   min-height: 100vh; /* fallback */
   font-family: 'Baloo 2', sans-serif;
-  background: #111;
+  background: #111111d7;
   color: #f1f1f1;
 }
 /* Fond p5 */
@@ -445,4 +445,41 @@ h1 {
 
 .fade-out {
   opacity: 0;
+}
+
+.info-content {
+  position: relative;
+  z-index: 10;
+  color: white;
+  background: rgba(0, 0, 0, 0.6); /* lisibilité sur fond animé */
+  padding: 2rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  font-family: 'Baloo 2', sans-serif;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  backdrop-filter: blur(8px);
+}
+
+.info-content h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.info-content p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.info-content ul {
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.info-content code {
+  background: rgba(255,255,255,0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
 }

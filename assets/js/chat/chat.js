@@ -11,19 +11,40 @@ const messagesRef = ref(db, 'messages');
 
 // 🕒 Heure actuelle au moment du chargement
 const now = Date.now();
-
 // Envoi d’un message
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const text = chatInput.value.trim();
+
   if (text !== '') {
-    push(messagesRef, {
-      text: text,
-      timestamp: Date.now()
-    });
+    if (text.startsWith('/')) {
+      // Traite localement les commandes, ne pas sauvegarder
+      const parts = text.trim().split(/\s+/);
+      const cmd = parts[0];
+
+      if (cmd === '/all') {
+        if (parts.length === 4) {
+          const [_, dateStr, startHourStr, endHourStr] = parts;
+          showAllMessages(dateStr, Number(startHourStr), Number(endHourStr));
+        } else {
+          showAllMessages(); // fallback sans filtre
+        }
+      } else if (cmd === '/clear') {
+        document.querySelectorAll('.floating-message').forEach(el => el.remove());
+      }
+      // Tu peux ajouter d'autres commandes ici
+
+    } else {
+      push(messagesRef, {
+        text: text,
+        timestamp: Date.now()
+      });
+    }
     chatInput.value = '';
   }
 });
+
+
 
 // Réception — uniquement les messages récents
 
@@ -40,23 +61,49 @@ onChildAdded(messagesRef, (snapshot) => {
   // Ne pas afficher les anciens messages si en mode "live only"
   if (!showHistory && ts < now) return;
 
-  // Activer l'affichage complet uniquement si /all est tapé maintenant
-  if (message.text === '/all') {
-    showAllMessages();
-    return;
-  }
 
   displayMessage(message.text);
 });
-function showAllMessages() {
+function showAllMessages(dateStr, startHour, endHour) {
   showHistory = true;
   get(child(ref(db), 'messages')).then((snapshot) => {
     if (snapshot.exists()) {
       const data = snapshot.val();
+
+      let startTs = 0;
+      let endTs = Infinity;
+
+      if (dateStr && !isNaN(startHour) && !isNaN(endHour)) {
+        // Format attendu : DDMMYYYY
+        const day = parseInt(dateStr.slice(0, 2));
+        const month = parseInt(dateStr.slice(2, 4)) - 1; // JS : 0-based
+        const year = parseInt(dateStr.slice(4, 8));
+
+        const start = new Date(year, month, day, startHour, 0, 0, 0); // ← explicite
+        const end = new Date(year, month, day, endHour, 0, 0, 0);
+
+        if (endHour <= startHour) {
+          end.setDate(end.getDate() + 1); // Passer au lendemain
+        }
+
+        startTs = start.getTime();
+        endTs = end.getTime();
+
+        console.log(`🕓 Filtrage entre ${start} (${startTs}) et ${end} (${endTs})`);
+      }
+
       for (let key in data) {
         const msg = data[key];
-        if (msg && typeof msg.text === 'string') {
+        const ts = Number(msg.timestamp);
+
+        if (
+          msg && typeof msg.text === 'string' &&
+          ts >= startTs && ts <= endTs
+        ) {
+          console.log(`✅ Match: ${msg.text} @ ${new Date(ts).toLocaleString()}`);
           displayMessage(msg.text);
+        } else {
+          console.log(`❌ Ignored: ${msg.text} @ ${new Date(ts).toLocaleString()}`);
         }
       }
     }
