@@ -13,17 +13,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let imageBlob = null;
 
-  // ✅ Fonction pour initialiser la caméra
+  // ✅ Fonction pour initialiser la caméra avec fallback
   async function startCamera() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: "environment" } },
+        video: {
+          facingMode: { ideal: "environment" },
+          width: { ideal: 1920 },
+          height: { ideal: 1080 }
+        },
         audio: false
       });
       video.srcObject = stream;
+
+      // ✅ Log de la résolution réelle quand chargée
+      video.onloadedmetadata = () => {
+        console.log("🎥 Résolution réelle :", video.videoWidth + "x" + video.videoHeight);
+      };
     } catch (err) {
-      console.error("Erreur d’accès caméra :", err);
-      alert("Erreur d’accès caméra : " + err.message);
+      console.warn("⚠️ HD non dispo, fallback :", err.message);
+      try {
+        const fallbackStream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false
+        });
+        video.srcObject = fallbackStream;
+        video.onloadedmetadata = () => {
+          console.log("🎥 Résolution fallback :", video.videoWidth + "x" + video.videoHeight);
+        };
+      } catch (finalErr) {
+        console.error("Erreur caméra :", finalErr);
+        alert("Erreur d’accès caméra : " + finalErr.message);
+      }
     }
   }
 
