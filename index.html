@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Jam Session</title>
-  <script src="assets/js/config/config.js"></script>
+
+  <!-- Fonts & Style -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/style.css" />
+
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
+  <script src="assets/js/config/config.js"></script>
 </head>
 <body>
-</script>
+  <img src="data/HDexportLogo.png" alt="Logo Jam" id="logo" />
 
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const script = document.createElement('script');
-    script.src = 'assets/js/visual/visual.js';
-    document.body.appendChild(script);
-  });
-</script>
-<img src="data/HDexportLogo.png" alt="Logo Jam" id="logo">
-<form id="chat-form">
-  <input type="text" id="chat-input" placeholder="Message…" autocomplete="off" />
-</form>
+  <form id="chat-form">
+    <input type="text" id="chat-input" placeholder="Message…" autocomplete="off" />
+  </form>
 
-<script type="module" src="assets/js/chat/chat.js"></script>
+  <!-- Script de visualisation p5.js -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const script = document.createElement('script');
+      script.src = 'assets/js/visual/visual.js';
+      document.body.appendChild(script);
+    });
+  </script>
+
+  <!-- Script de chat -->
+  <script type="module" src="assets/js/chat/chat.js"></script>
+
+  <!-- 🔗 Lien vers version React -->
+  <p style="position: absolute; bottom: 1rem; right: 1rem;">
+    <a href="react/">🎛 Interface React</a>
+  </p>
 </body>
 </html>

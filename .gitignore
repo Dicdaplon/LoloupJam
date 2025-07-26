@@ -1,1 +1,11 @@
 .vscode/settings.json
+# Node
+node_modules/
+*.log
+
+# Vite build (ancien)
+react-dist/
+
+# VS Code
+.vscode/
+.DS_Store
