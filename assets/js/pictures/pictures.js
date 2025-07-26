@@ -18,3 +18,17 @@ export function loadAllPictures(callback) {
       console.error("Erreur chargement des images Firebase:", error);
     });
 }
+
+function setCameraHeightToViewport() {
+  const vh = window.innerHeight * 0.01;
+  const container = document.getElementById("camera-container");
+
+  if (container) {
+    container.style.height = `${vh * 100}px`;
+  }
+}
+
+// Exécuter au chargement et sur resize/orientation
+window.addEventListener("DOMContentLoaded", setCameraHeightToViewport);
+window.addEventListener("resize", setCameraHeightToViewport);
+window.addEventListener("orientationchange", setCameraHeightToViewport);

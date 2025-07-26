@@ -8,6 +8,7 @@ const PATHS = {
   paroles: `${BASE_PATH}/paroles/`,
   chat: `${BASE_PATH}/assets/js/chat/`,
   firebase:`${BASE_PATH}/assets/js/firebase/`,
+  image:`${BASE_PATH}/assets/image/`
 };
 
 // Gestion dynamique de la hauteur de l'app (mobile-friendly)

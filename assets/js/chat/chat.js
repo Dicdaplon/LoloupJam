@@ -2,6 +2,7 @@
 import { db } from '../firebase/firebase-config.js';
 import { ref, push, onChildAdded } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js';
 import { get, child } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+import { loadAllPictures } from '../pictures/pictures.js';
 
 const chatInput = document.getElementById('chat-input');
 const form = document.getElementById('chat-form');
@@ -64,8 +65,10 @@ onChildAdded(messagesRef, (snapshot) => {
 
   displayMessage(message.text);
 });
+
 function showAllMessages(dateStr, startHour, endHour) {
   showHistory = true;
+
   get(child(ref(db), 'messages')).then((snapshot) => {
     if (snapshot.exists()) {
       const data = snapshot.val();
@@ -79,7 +82,7 @@ function showAllMessages(dateStr, startHour, endHour) {
         const month = parseInt(dateStr.slice(2, 4)) - 1; // JS : 0-based
         const year = parseInt(dateStr.slice(4, 8));
 
-        const start = new Date(year, month, day, startHour, 0, 0, 0); // ← explicite
+        const start = new Date(year, month, day, startHour, 0, 0, 0);
         const end = new Date(year, month, day, endHour, 0, 0, 0);
 
         if (endHour <= startHour) {
@@ -107,14 +110,18 @@ function showAllMessages(dateStr, startHour, endHour) {
         }
       }
     }
+
+    // 🔥 Affichage des photos après les messages
+    loadAllPictures((url) => {
+      displayMessage('photo:' + url);
+    });
   });
 }
+
 // Affichage overlay temporaire
 function displayMessage(text) {
   const el = document.createElement('div');
   el.className = 'floating-message neon';
-
-  el.innerText = text;
 
   // Position initiale aléatoire
   const x = Math.random() * 80 + 10; // 10% à 90%
@@ -125,15 +132,30 @@ function displayMessage(text) {
   // Couleur néon aléatoire
   const colors = ['#00f0ff', '#ff00c8', '#39ff14', '#ffd700', '#ff4444'];
   const color = colors[Math.floor(Math.random() * colors.length)];
-  el.style.color = color;
   el.style.textShadow = `0 0 8px ${color}, 0 0 16px ${color}, 0 0 24px ${color}`;
 
-  // Générer un nom d'animation aléatoire unique
+  // Gestion image ou texte
+  if (text.startsWith('photo:')) {
+    const url = text.slice(6).trim();
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = 'Jam Photo';
+    img.style.maxWidth = '10vw';
+    img.style.maxHeight = '10vh';
+    img.style.borderRadius = '1rem';
+    img.style.boxShadow = `0 0 20px ${color}`;
+    img.style.pointerEvents = 'none';
+    el.appendChild(img);
+  } else {
+    el.innerText = text;
+    el.style.color = color;
+  }
+
+  // Générer un nom d'animation unique
   const animName = `float-${Math.floor(Math.random() * 100000)}`;
   const deltaX = (Math.random() * 30 - 15); // -15px à +15px
   const deltaY = (Math.random() * 30 - 15);
 
-  // Injecter animation CSS personnalisée
   const style = document.createElement('style');
   style.innerHTML = `
     @keyframes ${animName} {
@@ -152,7 +174,7 @@ function displayMessage(text) {
     el.classList.add('fade-out');
     setTimeout(() => {
       el.remove();
-      style.remove(); // Nettoyer le style injecté
+      style.remove(); // Nettoyage
     }, 1000);
   }, 4000);
 }
