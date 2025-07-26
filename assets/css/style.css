@@ -510,12 +510,11 @@ body.camera-page {
 
 .camera-page #overlay-buttons {
   position: absolute;
-  bottom: 2rem;
+  bottom: min(6vh, 60px);
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 2rem;
-  pointer-events: none;
   z-index: 10;
 }
 
