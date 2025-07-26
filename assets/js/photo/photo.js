@@ -11,17 +11,32 @@ document.addEventListener("DOMContentLoaded", () => {
   const snap = document.getElementById("snap");
   const upload = document.getElementById("upload");
 
-  navigator.mediaDevices.getUserMedia({ video: true })
-    .then(stream => {
-      video.srcObject = stream;
-    })
-    .catch(err => {
-      alert("Erreur caméra : " + err.message);
-    });
-
   let imageBlob = null;
 
+  // ✅ Fonction pour initialiser la caméra
+  async function startCamera() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: "environment" } },
+        audio: false
+      });
+      video.srcObject = stream;
+    } catch (err) {
+      console.error("Erreur d’accès caméra :", err);
+      alert("Erreur d’accès caméra : " + err.message);
+    }
+  }
+
+  // 📸 Lancer la caméra au chargement
+  startCamera();
+
+  // ✅ Capture sécurisée une fois que la vidéo est prête
   snap.addEventListener("click", () => {
+    if (video.readyState < 2) {
+      alert("📷 La caméra n’est pas encore prête !");
+      return;
+    }
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext("2d").drawImage(video, 0, 0);
@@ -29,9 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
       imageBlob = blob;
       upload.disabled = false;
       alert("📸 Photo capturée !");
-    }, "image/jpeg", 1.0); // Qualité max
+    }, "image/jpeg", 1.0);
   });
 
+  // ✅ Upload original + compressé
   upload.addEventListener("click", async () => {
     if (!imageBlob) {
       alert("Aucune image capturée.");
@@ -39,18 +55,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const timestamp = Date.now();
-
-    // 🔶 Chemins pour upload
     const originalRef = ref(storage, `originals/photo-${timestamp}.jpg`);
     const compressedRef = ref(storage, `compressed/photo-${timestamp}.jpg`);
 
     try {
-      // ✅ Upload version originale
       await uploadBytes(originalRef, imageBlob);
       console.log("✅ Originale uploadée :", originalRef.fullPath);
 
-      // ✅ Création version compressée
-      const compressedBlob = await createCompressedBlob(canvas, 0.5); // qualité 50%
+      const compressedBlob = await createCompressedBlob(canvas, 0.5);
       await uploadBytes(compressedRef, compressedBlob);
       console.log("✅ Comprimée uploadée :", compressedRef.fullPath);
 
@@ -61,22 +73,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 📦 Fonction pour compresser une image depuis le canvas
+  // ✅ Compression d’image
   async function createCompressedBlob(canvas, quality = 0.5) {
     return new Promise((resolve) => {
       const tempCanvas = document.createElement("canvas");
-      const maxWidth = 800; // taille cible
-
+      const maxWidth = 800;
       const ratio = maxWidth / canvas.width;
+
       tempCanvas.width = maxWidth;
       tempCanvas.height = canvas.height * ratio;
 
       const ctx = tempCanvas.getContext("2d");
       ctx.drawImage(canvas, 0, 0, tempCanvas.width, tempCanvas.height);
 
-      tempCanvas.toBlob(blob => {
-        resolve(blob);
-      }, "image/jpeg", quality);
+      tempCanvas.toBlob(blob => resolve(blob), "image/jpeg", quality);
     });
   }
 });
