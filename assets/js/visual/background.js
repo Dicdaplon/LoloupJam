@@ -20,7 +20,7 @@ function setup() {
 }
 function draw() {
   // Fond avec transparence pour trainées
-background(0,20);
+    background(28,32,37,180);
 // Générer des notes aléatoires
 if (random(1) < 0.1) {
   notes.push(new NoteParticle());

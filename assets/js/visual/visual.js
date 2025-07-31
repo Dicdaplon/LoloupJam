@@ -20,10 +20,10 @@ function setup() {
   textFont(baloo);
 
   buttons = [
-    new CircleButton("Tablatures", "tablatures.html", width * 0.3, height / 2, color('#FF206E')),
-    new CircleButton("Paroles", "paroles.html", width * 0.5, height / 2, color('#41EAD4')),
-    new CircleButton("Infos", "info.html", width * 0.7, height / 2, color('#FBFF12')),
-    new MinorButton("Photo !", "camera.html", width * 0.9, height / 1.4, color('#FBFF12')),
+    new CircleButton("Tablatures", "tablatures.html", width * 0.3, height / 2, color('#FF5F9E')),
+    new CircleButton("Paroles", "paroles.html", width * 0.5, height / 2, color('#00F0FF')),
+    new CircleButton("Infos", "info.html", width * 0.7, height / 2, color('#FFF275')),
+    new MinorButton("Photo !", "camera.html", width * 0.9, height / 1.4, color('#B388EB')),
   ];
 
 
@@ -32,7 +32,7 @@ function setup() {
 function draw() {
 
   // Fond avec transparence pour trainées
-background(0, 20);
+  background(28,32,37,180);
 
 // Générer des notes aléatoires
 if (random(1) < 0.1) {
@@ -102,10 +102,10 @@ class CircleButton {
   // Glow (cercle flou derrière)
   push();
   noStroke();
-  for (let i = 4; i >= 1; i--) {
-    fill(red(this.c), green(this.c), blue(this.c), 20);
-    ellipse(this.x + jitterX, this.y + jitterY, size + i * 10);
-  }
+for (let i = 8; i >= 1; i--) {
+  fill(red(this.c), green(this.c), blue(this.c), 8); // faible alpha
+  ellipse(this.x + random(-0.5, 0.5), this.y + random(-0.5, 0.5), size + i * 6);
+}
   pop();
 
   // Déphasage RGB (légers cercles en couleur décalée)
@@ -127,7 +127,7 @@ class CircleButton {
 text(this.label, this.x + 2, this.y + 2);
 fill(255);
 text(this.label, this.x, this.y);
-pop(); // ✅ Manquait ici
+pop(); 
 }
 
 isHovered(px, py) {

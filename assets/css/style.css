@@ -5,7 +5,7 @@ html, body {
   height: var(--app-height);
   min-height: 100vh; /* fallback */
   font-family: 'Baloo 2', sans-serif;
-  background: #111111d7;
+  background: #2e2e2e;
   color: #f1f1f1;
 }
 /* Fond p5 */
