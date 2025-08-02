@@ -1,5 +1,41 @@
 [
   {
+    "titre": "Sweet dream",
+    "style": "pop",
+    "bpm": 80,
+    "tonalite": "Am",
+    "difficulte": "facile",
+    "signature": "4/4",
+    "grille": [
+      {
+        "mesures": [
+          "Am",
+          "%",
+          "F",
+          "E"
+        ]
+      }
+    ]
+  },
+    {
+    "titre": "Smells Like Teen Spirit",
+    "style": "Rock",
+    "bpm": 80,
+    "tonalite": "Em",
+    "difficulte": "facile",
+    "signature": "4/4",
+    "grille": [
+      {
+        "mesures": [
+          "Em",
+          "A",
+          "G",
+          "C"
+        ]
+      }
+    ]
+  },
+  {
     "titre": "Jardin d'hiver",
     "style": "Jazz",
     "bpm": 75,
@@ -450,7 +486,7 @@
   "style": "Funk",
   "bpm": 100,
   "tonalite": "Em",
-  "difficulte": "Facile",
+  "difficulte": "Intermédiaire",
   "signature": "4/4",
   "grille": [
     {
@@ -500,7 +536,7 @@
   "style": "Jazz",
   "bpm": 95,
   "tonalite": "F",
-  "difficulte": "Intermédiaire",
+  "difficulte": "Avancé",
   "signature": "4/4",
   "grille": [
     {
@@ -518,7 +554,7 @@
   "style": "Bossa Nova",
   "bpm": 85,
   "tonalite": "Dm",
-  "difficulte": "Facile",
+  "difficulte": "Avancé",
   "signature": "4/4",
   "grille": [
     {
@@ -532,7 +568,7 @@
   "style": "Soul",
   "bpm": 92,
   "tonalite": "Bb",
-  "difficulte": "Facile",
+  "difficulte": "Avancé",
   "signature": "4/4",
   "grille": [
     {
@@ -550,7 +586,7 @@
   "style": "Blues",
   "bpm": 90,
   "tonalite": "A",
-  "difficulte": "Facile",
+  "difficulte": "Intermédiaire",
   "signature": "4/4",
   "grille": [
     {

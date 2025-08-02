@@ -208,7 +208,7 @@ h1 {
 
 
 #selection-container-paroles {
-  text-align: center;
+  text-align: left;
   padding: 1rem 1rem;
   margin-top: 1vh;
   backdrop-filter: blur(8px);
@@ -231,13 +231,13 @@ h1 {
 #contenu-paroles {
   flex-grow: 1;                 /* Remplit le reste de l’écran */
   white-space: pre-wrap;
-  text-align: center;
+  text-align: left;
   overflow-y: auto;
   padding: 2rem;
   background: #1a1a1a;
   border-radius: 12px;
   box-shadow: 0 0 10px #000a;
-  font-size: 2rem;
+  font-size: 1.2rem;
   line-height: 1.6;
   box-sizing: border-box;
 }
@@ -350,7 +350,7 @@ h1 {
 }
 
 #selection-container-paroles {
-  text-align: center;
+  text-align: left;
   padding: 1rem 1rem;
   margin-top: 1vh;
   backdrop-filter: blur(8px);
@@ -378,8 +378,8 @@ h1 {
   background: #1a1a1a;
   border-radius: 12px;
   box-shadow: 0 0 10px #000a;
-  text-align: center;
-  font-size:1.5rem;
+  text-align: left;
+  font-size:1.1rem;
   line-height: 1.6;
   box-sizing: border-box;
 }
