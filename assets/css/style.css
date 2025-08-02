@@ -544,3 +544,49 @@ body.camera-page {
   color: #888;
   cursor: not-allowed;
 }
+
+
+.paroles-neonA {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.8;
+  color: #fff;
+  text-align: left;
+  text-shadow:
+    0 0 5px rgba(0, 255, 255, 0.5),
+    0 0 10px rgba(0, 255, 255, 0.3),
+    0 0 20px rgba(0, 255, 255, 0.2);
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 90vw;
+}
+
+.paroles-neonB {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.8;
+  color: #fff;
+  text-align: left;
+  text-shadow:
+    0 0 5px rgba(221, 0, 255, 0.5),
+    0 0 10px rgba(255, 0, 238, 0.3),
+    0 0 20px rgba(200, 0, 255, 0.2);
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 90vw;
+}
+
+.paroles-neonC {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.8;
+  color: #fff;
+  text-align: left;
+  text-shadow:
+    0 0 5px rgba(69, 82, 18, 0.5),
+    0 0 10px rgba(195, 255, 0, 0.3),
+    0 0 20px rgba(183, 255, 0, 0.2);
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 90vw;
+}
