@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const video = document.getElementById("video");
   const canvas = document.getElementById("canvas");
   const snap = document.getElementById("snap");
-  const upload = document.getElementById("upload");
 
   let imageBlob = null;
 
@@ -51,27 +50,39 @@ document.addEventListener("DOMContentLoaded", () => {
   // 📸 Lancer la caméra au chargement
   startCamera();
 
-  // ✅ Capture sécurisée une fois que la vidéo est prête
-  snap.addEventListener("click", () => {
-    if (video.readyState < 2) {
-      alert("📷 La caméra n’est pas encore prête !");
-      return;
-    }
+snap.addEventListener("click", () => {
+  if (video.readyState < 2) {
+    alert("📷 La caméra n’est pas encore prête !");
+    return;
+  }
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas.getContext("2d").drawImage(video, 0, 0);
-    canvas.toBlob(blob => {
-      imageBlob = blob;
-      upload.disabled = false;
-      alert("📸 Photo capturée !");
-    }, "image/jpeg", 1.0);
-  });
+  snap.disabled = true;
 
-  // ✅ Upload original + compressé
-  upload.addEventListener("click", async () => {
-    if (!imageBlob) {
-      alert("Aucune image capturée.");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d").drawImage(video, 0, 0);
+
+  const flash = document.createElement("div");
+flash.style.position = "fixed";
+flash.style.top = 0;
+flash.style.left = 0;
+flash.style.width = "100vw";
+flash.style.height = "100vh";
+flash.style.background = "white";
+flash.style.opacity = "0.7";
+flash.style.zIndex = 9999;
+flash.style.transition = "opacity 0.4s ease";
+
+document.body.appendChild(flash);
+setTimeout(() => {
+  flash.style.opacity = "0";
+  setTimeout(() => flash.remove(), 400);
+}, 50);
+
+  canvas.toBlob(async (blob) => {
+    if (!blob) {
+      alert("Erreur lors de la capture de l'image.");
+      snap.disabled = false;
       return;
     }
 
@@ -80,21 +91,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const compressedRef = ref(storage, `compressed/photo-${timestamp}.jpg`);
 
     try {
-      await uploadBytes(originalRef, imageBlob);
+      // ✅ Upload originale
+      await uploadBytes(originalRef, blob);
       console.log("✅ Originale uploadée :", originalRef.fullPath);
 
+      // ✅ Créer et uploader la version compressée
       const compressedBlob = await createCompressedBlob(canvas, 0.5);
       await uploadBytes(compressedRef, compressedBlob);
       console.log("✅ Comprimée uploadée :", compressedRef.fullPath);
 
-      alert("✅ Les deux versions ont été envoyées !");
+      alert("📸 Photo prise et envoyée !");
     } catch (err) {
       console.error("❌ Erreur upload :", err);
       alert("Erreur lors de l’envoi : " + err.message);
+    } finally {
+      snap.disabled = false;
     }
-  });
+  }, "image/jpeg", 1.0);
+});
 
-  // ✅ Compression d’image
   async function createCompressedBlob(canvas, quality = 0.5) {
     return new Promise((resolve) => {
       const tempCanvas = document.createElement("canvas");
