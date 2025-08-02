@@ -550,7 +550,7 @@ body.camera-page {
   font-family: 'Baloo 2', sans-serif;
   font-size: 1.6rem;
   line-height: 1.8;
-  color: #fff;
+  color: #d5feff;
   text-align: left;
   text-shadow:
     0 0 5px rgba(0, 255, 255, 0.5),
@@ -565,7 +565,7 @@ body.camera-page {
   font-family: 'Baloo 2', sans-serif;
   font-size: 1.6rem;
   line-height: 1.8;
-  color: #fff;
+  color: #ffe1fe;
   text-align: left;
   text-shadow:
     0 0 5px rgba(221, 0, 255, 0.5),
@@ -580,7 +580,7 @@ body.camera-page {
   font-family: 'Baloo 2', sans-serif;
   font-size: 1.6rem;
   line-height: 1.8;
-  color: #fff;
+  color: #e6ffd0;
   text-align: left;
   text-shadow:
     0 0 5px rgba(69, 82, 18, 0.5),
