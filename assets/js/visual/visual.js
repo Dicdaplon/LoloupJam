@@ -18,9 +18,10 @@ function setup() {
   textAlign(CENTER, CENTER);
   textSize(16);
   textFont(baloo);
+  repositionButtons();
 
   buttons = [
-    new CircleButton("Tablatures", "tablatures.html", width * 0.3, height / 2, color('#FF5F9E')),
+    new CircleButton("Accords", "tablatures.html", width * 0.3, height / 2, color('#FF5F9E')),
     new CircleButton("Paroles", "paroles.html", width * 0.5, height / 2, color('#00F0FF')),
     new CircleButton("Infos", "info.html", width * 0.7, height / 2, color('#FFF275')),
     new MinorButton("Photo !", "camera.html", width * 0.9, height / 1.4, color('#B388EB')),
@@ -202,7 +203,7 @@ function windowResized() {
 
 function repositionButtons() {
   let isPortrait = height > width;
-   if (buttons.length === 3) {
+   if (buttons.length === 4) {
     if (!isPortrait)
     {
     buttons[0].x = width * 0.3;
@@ -228,8 +229,8 @@ function repositionButtons() {
       buttons[2].x = width / 2;
       buttons[2].y = height * 0.76;
 
-      buttons[3].x = width / 2;
-      buttons[3].y = height * 0.94;
+      buttons[3].x = width / 1.25;
+      buttons[3].y = height * 0.85;
     }
 
   }
@@ -264,3 +265,10 @@ class NoteParticle {
   }
   
 }
+
+window.addEventListener("orientationchange", () => {
+  setTimeout(() => {
+    resizeCanvas(windowWidth, windowHeight);
+    repositionButtons();
+  }, 200);
+});
