@@ -1,0 +1,2 @@
+Am = pain, lock, true, sunny
+Fm = love, easy, rain
