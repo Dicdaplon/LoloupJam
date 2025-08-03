@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Paroles</title>
+
+  <!-- Style principal -->
   <link rel="stylesheet" href="./assets/css/style.css" />
+
+  <!-- p5.js pour le fond animé -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
 </head>
 <body class="scrollable">
-  <h1>🎤 Paroles</h1>
-  <select id="selector"></select>
-  <pre id="contenu-paroles" class="paroles"></pre>
+  <section id="paroles-section">
+    <h1>🎤 Paroles</h1>
+
+    <div id="selection-container-paroles">
+      <select id="selector-paroles">
+        <option disabled selected>-- Choisis un morceau --</option>
+      </select>
+    </div>
+
+    <pre id="contenu-paroles" class="paroles"></pre>
+  </section>
 
   <div id="background-holder"></div>
 
@@ -25,4 +38,3 @@
   </script>
 </body>
 </html>
-

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const selector = document.getElementById("selector");
+  const selector = document.getElementById("selector-paroles");
   const contenu = document.getElementById("contenu-paroles");
 
   if (typeof PATHS === "undefined") {

@@ -214,7 +214,7 @@ h1 {
   backdrop-filter: blur(8px);
   background: rgba(0, 0, 0, 0.4);
   border-radius: 1rem;
-  width: 80vw;
+  width: 70vw;
   margin-left: auto;
   margin-right: auto;
   z-index: 1;
@@ -222,7 +222,7 @@ h1 {
 
 #selector-paroles {
   padding: 1vh 1vh;
-  font-size: 3rem;
+  font-size: 2rem;
   border: none;
   border-radius: 0.5rem;
   background: #222;
@@ -364,7 +364,7 @@ h1 {
 
 #selector-paroles {
   padding: 1vh 1vh;
-  font-size: 3rem;
+  font-size: 2rem;
   border: none;
   border-radius: 0.5rem;
   background: #222;
