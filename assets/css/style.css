@@ -5,8 +5,8 @@ html, body {
   height: var(--app-height);
   min-height: 100vh; /* fallback */
   font-family: 'Baloo 2', sans-serif;
-  background: #2e2e2e;
-  color: #f1f1f1;
+  background: #2e2e2e00;
+  color: #ffffffe9;
 }
 /* Fond p5 */
 canvas {
@@ -234,7 +234,7 @@ h1 {
   text-align: left;
   overflow-y: auto;
   padding: 2rem;
-  background: #1a1a1a;
+  background: #1a1a1a00;
   border-radius: 12px;
   box-shadow: 0 0 10px #000a;
   font-size: 1.2rem;
@@ -375,7 +375,7 @@ h1 {
   white-space: pre-wrap;
   overflow-y: auto;
   padding: 2rem;
-  background: #1a1a1a;
+  background: #8b0d7200;
   border-radius: 12px;
   box-shadow: 0 0 10px #000a;
   text-align: left;
