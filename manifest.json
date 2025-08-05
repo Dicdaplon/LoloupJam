@@ -5,7 +5,7 @@
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#ff00ff",
-  "orientation": "portrait",
+ "orientation": "any",
   "icons": [
     {
       "src": "/LoloupJam/icons/icon-192.png",
