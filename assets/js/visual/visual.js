@@ -1,274 +1,204 @@
+let accueilSketch = (p) => {
+  let buttons = [];
+  let baloo;
+  let logo;
+  let cameraIcon;
 
-
-let buttons = [];
-let notes = [];
-const noteChars = ['♪', '♫', '♩', '♬'];
-let baloo;
-let logo;
-
-function preload() {
-  baloo = loadFont(PATHS.fonts + 'Baloo2-Regular.ttf');
-  logo = loadImage(PATHS.data +'HDexportLogo.png')
-   cameraIcon = loadImage(PATHS.image + "Photo.png");
-}
-
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noStroke();
-  textAlign(CENTER, CENTER);
-  textSize(16);
-  textFont(baloo);
-  repositionButtons();
-
-  buttons = [
-    new CircleButton("Accords", "tablatures.html", width * 0.3, height / 2, color('#FF5F9E')),
-    new CircleButton("Paroles", "paroles.html", width * 0.5, height / 2, color('#00F0FF')),
-    new CircleButton("Infos", "info.html", width * 0.7, height / 2, color('#FFF275')),
-    new MinorButton("Photo !", "camera.html", width * 0.9, height / 1.4, color('#B388EB')),
-  ];
-
-
-}
-
-function draw() {
-
-  // Fond avec transparence pour trainées
-  background(28,32,37,180);
-
-// Générer des notes aléatoires
-if (random(1) < 0.1) {
-  notes.push(new NoteParticle());
-}
-
-// Afficher les notes
-for (let i = notes.length - 1; i >= 0; i--) {
-  notes[i].update();
-  notes[i].display();
-  if (notes[i].isDead()) {
-    notes.splice(i, 1);
-  }
-}
-
-// Titre principal
-push();
-textFont(baloo);
-textSize(36);
-fill(255);
-textAlign(CENTER, TOP);
-fill(0, 180);
-text("Loloup Jam LIVE", width / 2 + 2, 32 + 2); // ombre
-fill(255);
-text("Loloup Jam LIVE", width / 2, 32); // titre principal
-pop();
-  for (let btn of buttons) {
-    btn.update();
-    btn.display();
-  }
-}
-
-function mousePressed() {
-  for (let btn of buttons) {
-    if (btn.isHovered(mouseX, mouseY)) {
-      window.location.href = btn.link;
-    }
-  }
-}
-
-
-
-class CircleButton {
-  constructor(label, link, x, y, c) {
-    this.label = label;
-    this.link = link;
-    this.x = x;
-    this.y = y;
-    this.baseSize = 100;
-    this.c = c;
-    this.pulse = random(TWO_PI);
-  }
-
-
-
-  update() {
-    this.pulse += 0.05;
-  }
-
-  display() {
-  let size = this.baseSize + sin(this.pulse) * 10;
-
-  // Shake léger
-  let jitterX = random(-1, 1);
-  let jitterY = random(-1, 1);
-
-  // Glow (cercle flou derrière)
-  push();
-  noStroke();
-for (let i = 8; i >= 1; i--) {
-  fill(red(this.c), green(this.c), blue(this.c), 8); // faible alpha
-  ellipse(this.x + random(-0.5, 0.5), this.y + random(-0.5, 0.5), size + i * 6);
-}
-  pop();
-
-  // Déphasage RGB (légers cercles en couleur décalée)
-  push();
-  noStroke();
-  fill(255, 0, 0, 100);
-  ellipse(this.x + 2, this.y - 1, size);
-  fill(0, 255, 255, 100);
-  ellipse(this.x - 2, this.y + 1, size);
-  pop();
-
-  // Cercle principal
-  fill(this.c);
-  ellipse(this.x, this.y, size);
-
-  // Texte avec ombre
-  push();
-  fill(0, 180);
-text(this.label, this.x + 2, this.y + 2);
-fill(255);
-text(this.label, this.x, this.y);
-pop(); 
-}
-
-isHovered(px, py) {
-  let size = this.baseSize + sin(this.pulse) * 10;
-  let d = dist(px, py, this.x, this.y);
-  return d < size / 2;
-}
-}
-
-
-class MinorButton {
-  constructor(label, link, x, y, c) {
-    this.label = label;
-    this.link = link;
-    this.x = x;
-    this.y = y;
-    this.baseSize = 60;
-    this.c = c;
-    this.pulse = random(TWO_PI);
-  }
-
-
-
-  update() {
-    this.pulse += 0.05;
-  }
-
-display() {
-  let size = this.baseSize + sin(this.pulse) * 5;
-
-  // Shake léger pour l'effet glitch
-  let jitterX = random(-0.8, 0.8);
-  let jitterY = random(-0.8, 0.8);
-
-  // Effet halo glowy (flou doux, dégradé vers l’extérieur)
-  push();
-  noFill();
-  strokeWeight(1.5);
-  for (let i = 3; i >= 1; i--) {
-    stroke(red(this.c), green(this.c), blue(this.c), 10 * i);
-    ellipse(this.x + jitterX, this.y + jitterY, size + i * 6);
-  }
-  pop();
-
-  // Cercle principal : seulement le contour (très fin + blur subtil)
-  push();
-  stroke(this.c);
-  strokeWeight(1.5);
-  noFill();
-  ellipse(this.x, this.y, size);
-  pop();
-
-  // Icône caméra centrée
-  push();
-  let iconSize = size * 0.9;
-  imageMode(CENTER);
-  image(cameraIcon, this.x, this.y, iconSize, iconSize);
-  pop();
-}
-
-
-isHovered(px, py) {
-  let size = this.baseSize + sin(this.pulse) * 10;
-  let d = dist(px, py, this.x, this.y);
-  return d < size / 2;
-}
-}
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  repositionButtons();
-}
-
-function repositionButtons() {
-  let isPortrait = height > width;
-   if (buttons.length === 4) {
-    if (!isPortrait)
-    {
-    buttons[0].x = width * 0.3;
-    buttons[0].y = height / 2;
-
-    buttons[1].x = width * 0.5;
-    buttons[1].y = height / 2;
-
-    buttons[2].x = width * 0.7;
-    buttons[2].y = height / 2;
-
-    buttons[3].x = width * 0.9;
-    buttons[3].y = height / 2;
-    }
-    else
-    {
-      buttons[0].x = width / 2;
-      buttons[0].y = height * 0.4;
-
-      buttons[1].x = width / 2;
-      buttons[1].y = height * 0.58;
-
-      buttons[2].x = width / 2;
-      buttons[2].y = height * 0.76;
-
-      buttons[3].x = width / 1.25;
-      buttons[3].y = height * 0.85;
+  class CircleButton {
+    constructor(label, link, x, y, c) {
+      this.label = label;
+      this.link = link;
+      this.x = x;
+      this.y = y;
+      this.baseSize = 100;
+      this.c = c;
+      this.pulse = p.random(p.TWO_PI);
     }
 
-  }
-}
-class NoteParticle {
-  constructor() {
-    this.x = random(width);
-    this.y = height + 20;
-    this.speed = random(0.5, 4);
-    this.alpha = 255;
-    this.char = random(noteChars);
-    this.size = random(12, 35);
-    this.color = color(random(200, 255), random(100, 255), random(200, 255));
+    update() {
+      this.pulse += 0.05;
+    }
+
+    display() {
+      let size = this.baseSize + p.sin(this.pulse) * 10;
+      let jitterX = p.random(-1, 1);
+      let jitterY = p.random(-1, 1);
+
+      p.push();
+      p.noStroke();
+      for (let i = 8; i >= 1; i--) {
+        p.fill(p.red(this.c), p.green(this.c), p.blue(this.c), 8);
+        p.ellipse(this.x + p.random(-0.5, 0.5), this.y + p.random(-0.5, 0.5), size + i * 6);
+      }
+      p.pop();
+
+      p.push();
+      p.noStroke();
+      p.fill(255, 0, 0, 100);
+      p.ellipse(this.x + 2, this.y - 1, size);
+      p.fill(0, 255, 255, 100);
+      p.ellipse(this.x - 2, this.y + 1, size);
+      p.pop();
+
+      p.fill(this.c);
+      p.ellipse(this.x, this.y, size);
+
+      p.push();
+      p.fill(0, 180);
+      p.text(this.label, this.x + 2, this.y + 2);
+      p.fill(255);
+      p.text(this.label, this.x, this.y);
+      p.pop();
+    }
+
+    isHovered(px, py) {
+      let size = this.baseSize + p.sin(this.pulse) * 10;
+      let d = p.dist(px, py, this.x, this.y);
+      return d < size / 2;
+    }
   }
 
-  update() {
-    this.y -= this.speed;
-    this.alpha -= 1.0;
+  class MinorButton {
+    constructor(label, link, x, y, c) {
+      this.label = label;
+      this.link = link;
+      this.x = x;
+      this.y = y;
+      this.baseSize = 60;
+      this.c = c;
+      this.pulse = p.random(p.TWO_PI);
+    }
+
+    update() {
+      this.pulse += 0.05;
+    }
+
+    display() {
+      let size = this.baseSize + p.sin(this.pulse) * 5;
+      let jitterX = p.random(-0.8, 0.8);
+      let jitterY = p.random(-0.8, 0.8);
+
+      p.push();
+      p.noFill();
+      p.strokeWeight(1.5);
+      for (let i = 3; i >= 1; i--) {
+        p.stroke(p.red(this.c), p.green(this.c), p.blue(this.c), 10 * i);
+        p.ellipse(this.x + jitterX, this.y + jitterY, size + i * 6);
+      }
+      p.pop();
+
+      p.push();
+      p.stroke(this.c);
+      p.strokeWeight(1.5);
+      p.noFill();
+      p.ellipse(this.x, this.y, size);
+      p.pop();
+
+      p.push();
+      let iconSize = size * 0.9;
+      p.imageMode(p.CENTER);
+      p.image(cameraIcon, this.x, this.y, iconSize, iconSize);
+      p.pop();
+    }
+
+    isHovered(px, py) {
+      let size = this.baseSize + p.sin(this.pulse) * 10;
+      let d = p.dist(px, py, this.x, this.y);
+      return d < size / 2;
+    }
   }
 
-  display() {
-  push();
-  textFont('Georgia');  // ou 'Arial', ou autre police système compatible
-  fill(red(this.color), green(this.color), blue(this.color), this.alpha);
-  textSize(this.size);
-  text(this.char, this.x, this.y);
-  pop();
-}
-
-  isDead() {
-    return this.alpha <= 0;
+  function repositionButtons() {
+    let isPortrait = p.height > p.width;
+    if (buttons.length === 4) {
+      if (!isPortrait) {
+        buttons[0].x = p.width * 0.3;
+        buttons[0].y = p.height / 2;
+        buttons[1].x = p.width * 0.5;
+        buttons[1].y = p.height / 2;
+        buttons[2].x = p.width * 0.7;
+        buttons[2].y = p.height / 2;
+        buttons[3].x = p.width * 0.9;
+        buttons[3].y = p.height / 2;
+      } else {
+        buttons[0].x = p.width / 2;
+        buttons[0].y = p.height * 0.4;
+        buttons[1].x = p.width / 2;
+        buttons[1].y = p.height * 0.58;
+        buttons[2].x = p.width / 2;
+        buttons[2].y = p.height * 0.76;
+        buttons[3].x = p.width / 1.25;
+        buttons[3].y = p.height * 0.85;
+      }
+    }
   }
-  
-}
 
-window.addEventListener("orientationchange", () => {
-  setTimeout(() => {
-    resizeCanvas(windowWidth, windowHeight);
+  p.preload = () => {
+    baloo = p.loadFont(PATHS.fonts + 'Baloo2-Regular.ttf');
+    logo = p.loadImage(PATHS.data + 'HDexportLogo.png');
+    cameraIcon = p.loadImage(PATHS.image + "Photo.png");
+  };
+
+  p.setup = () => {
+    let canvas = p.createCanvas(p.windowWidth, p.windowHeight);
+    canvas.style('z-index', '10');
+    canvas.style('position', 'fixed');
+    canvas.style('top', '0');
+    canvas.style('left', '0');
+    canvas.style('pointer-events', 'auto');
+    canvas.parent(document.body);
+
+    p.noStroke();
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textSize(16);
+    p.textFont(baloo);
+
+    buttons = [
+      new CircleButton("Accords", "tablatures.html", p.width * 0.3, p.height / 2, p.color('#FF5F9E')),
+      new CircleButton("Paroles", "paroles.html", p.width * 0.5, p.height / 2, p.color('#00F0FF')),
+      new CircleButton("Infos", "info.html", p.width * 0.7, p.height / 2, p.color('#FFF275')),
+      new MinorButton("Photo !", "camera.html", p.width * 0.9, p.height / 1.4, p.color('#B388EB')),
+    ];
+         repositionButtons();
+  };
+
+  p.draw = () => {
+    p.clear();
+
+    p.push();
+    p.textFont(baloo);
+    p.textSize(36);
+    p.fill(0, 180);
+    p.text("Loloup Jam LIVE", p.width / 2 + 2, 32 + 2);
+    p.fill(255);
+    p.text("Loloup Jam LIVE", p.width / 2, 32);
+    p.pop();
+
+    for (let btn of buttons) {
+      btn.update();
+      btn.display();
+    }
+  };
+
+  p.mousePressed = () => {
+    for (let btn of buttons) {
+      if (btn.isHovered(p.mouseX, p.mouseY)) {
+        window.location.href = btn.link;
+      }
+    }
+  };
+
+  p.windowResized = () => {
+    p.resizeCanvas(p.windowWidth, p.windowHeight);
     repositionButtons();
-  }, 200);
-});
+  };
+
+  window.addEventListener("orientationchange", () => {
+    setTimeout(() => {
+      p.resizeCanvas(p.windowWidth, p.windowHeight);
+      repositionButtons();
+    }, 200);
+  });
+};
+
+new p5(accueilSketch);
