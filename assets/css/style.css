@@ -638,3 +638,25 @@ body.camera-page {
 .anchor-word {
   white-space: nowrap;
 }
+
+
+#navigation-overlay {
+  position: fixed;
+  right: 1rem; /* ou left: 1rem si tu préfères */
+  bottom: 2rem;
+  z-index: 1000;
+
+  background-color: #ff4081;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 1rem;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+#navigation-overlay:hover {
+  transform: scale(1.1);
+}
