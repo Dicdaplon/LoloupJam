@@ -141,7 +141,7 @@ let accueilSketch = (p) => {
 
   p.setup = () => {
     let canvas = p.createCanvas(p.windowWidth, p.windowHeight);
-    canvas.style('z-index', '10');
+    canvas.style('z-index', '5');
     canvas.style('position', 'fixed');
     canvas.style('top', '0');
     canvas.style('left', '0');

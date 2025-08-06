@@ -4,7 +4,7 @@ import { getStorage, ref as storageRef, listAll, getDownloadURL } from "https://
 // Charge toutes les images du dossier Firebase Storage "Pictures/"
 export function loadAllPictures(callback) {
   const storage = getStorage();
-  const folderRef = storageRef(storage, 'Pictures/');
+  const folderRef = storageRef(storage, 'compressed/');
 
   listAll(folderRef)
     .then((res) => {
