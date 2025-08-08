@@ -322,3 +322,15 @@ body.camera-page {
   background: rgba(202, 141, 9, 0);
   backdrop-filter: blur(2px);
 }
+
+
+.floating-message-loloup {
+  position: fixed;
+  font-size: 0.7rem;
+  font-weight: bold;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 999;
+  transition: opacity 1s ease;
+  white-space: nowrap;
+}
