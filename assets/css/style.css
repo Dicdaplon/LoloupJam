@@ -275,3 +275,50 @@ body.camera-page {
 #navigation-overlay:hover {
   transform: scale(1.1);
 }
+
+
+@keyframes shake {
+  0% { transform: translate(-50%, 0) rotate(0deg); }
+  20% { transform: translate(-50%, -5px) rotate(-5deg); }
+  40% { transform: translate(-50%, 5px) rotate(5deg); }
+  60% { transform: translate(-50%, -5px) rotate(-5deg); }
+  80% { transform: translate(-50%, 5px) rotate(5deg); }
+  100% { transform: translate(-50%, 0) rotate(0deg); }
+}
+
+#logo.shake {
+  animation: shake 0.6s;
+}
+
+/* La ligne devient un repère pour la couche d’accords */
+.overlay-chords {
+  position: relative;
+}
+
+/* La couche d’accords flotte au-dessus de la ligne, sans bousculer le texte */
+.chords-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;              /* on part du haut de la ligne */
+  pointer-events: none;/* clics passent au texte si besoin */
+}
+
+/* Chaque accord est positionné horizontalement en 'left: Nch' */
+.chord-abs {
+  position: absolute;
+  bottom: 100%;        /* au-dessus de la ligne */
+  white-space: nowrap;
+  transform: translateY(+0.25em); /* petit lift pour coller visuellement */
+}
+
+/* Style visuel (à ajuster à ton thème) */
+.chord-badge {
+  color: rgb(255, 73, 73);
+  font-size: 0.75em;
+  line-height: 1;
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+  background: rgba(202, 141, 9, 0);
+  backdrop-filter: blur(2px);
+}

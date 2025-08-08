@@ -1,3 +1,4 @@
+// ==== Chargement ====
 document.addEventListener("DOMContentLoaded", () => {
   const selector = document.getElementById("selector");
   const contenu = document.getElementById("contenu-paroles");
@@ -12,92 +13,108 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(liste => {
       liste.forEach((item) => {
         const opt = document.createElement("option");
-        opt.value = item.fichier;
-        opt.textContent = item.titre;
+        opt.value = item.fichier;     // ex: "sunny.txt"
+        opt.textContent = item.titre; // titre affiché
         selector.appendChild(opt);
       });
 
       selector.addEventListener("change", (e) => {
         const fichier = e.target.value;
 
+        const parolesPath = "paroles/" + fichier;                         // ex: paroles/sunny.txt
+        const chordsPath  = "textChords/" + fichier.replace(/\.[^.]+$/i, ".json"); // ex: textChords/sunny.json
+
         Promise.all([
-          fetch("paroles/" + fichier).then(res => res.text()),
-          fetch("textChords/" + fichier).then(res => res.text()).catch(() => "")
+          fetch(parolesPath).then(res => res.text()),
+          fetch(chordsPath).then(res => res.json()).catch(() => ({}))
         ])
-          .then(([texteParoles, texteChords]) => {
-            const insertions = parseChordsFile(texteChords);
-            renderParolesWithChords(texteParoles, { insertions });
-          })
-          .catch(err => contenu.textContent = "Erreur de chargement");
+        .then(([texteParoles, chordMap]) => {
+          renderParolesWithChords(texteParoles, { chords: chordMap });
+        })
+        .catch(err => {
+          console.error(err);
+          contenu.textContent = "Erreur de chargement";
+        });
       });
-    });
+    })
+    .catch(err => console.error("❌ Impossible de charger paroles-index.json", err));
 });
+
 
 function renderParolesWithChords(text, options = {}) {
   const container = document.getElementById("contenu-paroles");
   container.innerHTML = "";
 
-  const insertionDefinitions = options.insertions || [];
+  const chordMap = options.chords || {}; // { "Am": [ {sentence, offset}, ...], ... }
 
-  if (insertionDefinitions.length > 0) {
+  const norm = s => (s ?? "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  if (Object.keys(chordMap).length > 0) {
     const lines = text.split("\n");
 
     lines.forEach(line => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "line-wrapper";
+      const lineRaw  = line;
+      const lineNorm = norm(line);
+      const occurrences = [];
 
-      let rebuiltLine = "";
-      let remaining = line;
+      // collecte des accords pour cette ligne (sous-chaîne + offset relatif)
+      for (const chord in chordMap) {
+        for (const entry of chordMap[chord] || []) {
+          if (!entry || typeof entry.sentence !== "string" || !Number.isFinite(entry.offset)) continue;
+          const sentNorm = norm(entry.sentence);
+          if (!sentNorm) continue;
 
-      while (true) {
-        let bestMatch = null;
-
-        for (const def of insertionDefinitions) {
-          for (const keyword of def.keywords) {
-            const regex = new RegExp(`\\b${keyword}\\b`, "i");
-            const match = regex.exec(remaining);
-            if (match && (!bestMatch || match.index < bestMatch.index)) {
-              bestMatch = { keyword, match, def };
-            }
+          const startInLine = lineNorm.indexOf(sentNorm);
+          if (startInLine >= 0) {
+            const localOffset = Math.max(0, Math.min(sentNorm.length, entry.offset));
+            const absolute    = startInLine + localOffset;
+            const clamped     = Math.max(0, Math.min(lineRaw.length, absolute));
+            occurrences.push({ chord, offset: clamped });
           }
         }
-
-        if (!bestMatch) break;
-
-        const { keyword, match, def } = bestMatch;
-        const before = remaining.slice(0, match.index);
-        const anchor = match[0];
-        const after = remaining.slice(match.index + anchor.length);
-
-        rebuiltLine += before;
-        rebuiltLine += `<span class="anchor-word" data-key="${keyword.toLowerCase()}">${anchor}</span>`;
-        remaining = after;
       }
 
-      rebuiltLine += remaining;
-
+      // conteneur de la ligne (texte intact)
       const lineDiv = document.createElement("div");
-      lineDiv.className = "paroles-line";
-      lineDiv.innerHTML = rebuiltLine;
+      lineDiv.className = "paroles-line overlay-chords";
+      lineDiv.textContent = lineRaw;
 
-      const anchors = lineDiv.querySelectorAll(".anchor-word");
-      anchors.forEach(anchor => {
-        const key = anchor.dataset.key;
-        const def = insertionDefinitions.find(d => d.keywords.includes(key));
-        if (def) {
-          const el = def.create();
-          anchor.prepend(el);
-        }
-      });
+      if (occurrences.length) {
+        // couche d’accords par-dessus
+        const layer = document.createElement("div");
+        layer.className = "chords-layer";
 
+        // on trie pour cohérence (pas obligatoire)
+        occurrences.sort((a, b) => a.offset - b.offset);
+
+        occurrences.forEach(({ chord, offset }) => {
+          const badge = document.createElement("span");
+          badge.className = "chord-badge chord-abs";
+          badge.textContent = chord;
+
+          // position horizontale basée sur l’offset en 'ch'
+          // (1 offset = ~1 caractère de largeur)
+          badge.style.left = offset + "ch";
+
+          layer.appendChild(badge);
+        });
+
+        lineDiv.appendChild(layer);
+      }
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "line-wrapper";
       wrapper.appendChild(lineDiv);
       container.appendChild(wrapper);
     });
 
-    return; // fin : on n’affiche pas le mode classique si insertions utilisées
+    return;
   }
 
-  // Mode classique (neon A/B/C)
+  // --- Mode classique (neon A/B/C) inchangé ---
   const lines = text.split("\n");
   let currentStyle = "A";
   let buffer = [];
@@ -132,31 +149,4 @@ function renderParolesWithChords(text, options = {}) {
   });
 
   applyBlock(buffer, currentStyle);
-}
-
-function parseChordsFile(txt) {
-  if (!txt) return [];
-
-  const lines = txt.split("\n").map(l => l.trim()).filter(Boolean);
-  const insertions = [];
-
-  lines.forEach(line => {
-    const [label, rest] = line.split("=");
-    if (!label || !rest) return;
-
-    const chordName = label.trim();
-    const keywords = rest.split(",").map(w => w.trim()).filter(Boolean);
-
-    insertions.push({
-      keywords,
-      create: () => {
-        const el = document.createElement("div");
-        el.className = "floating-insert";
-        el.textContent = chordName;
-        return el;
-      }
-    });
-  });
-
-  return insertions;
 }

@@ -1,0 +1,29 @@
+{
+  "Cmaj7": [
+    { "sentence": "le temps passe", "offset": 11 },
+    { "sentence": "Souvent j'ai", "offset": 4 },
+    { "sentence": "tes draps", "offset": 9 },
+    { "sentence": "Mes Potes", "offset": 9 },
+    { "sentence": "suis un peu prise", "offset": 0 }
+  ],
+  "Em7": [
+    { "sentence": "t'oublie un peu", "offset": 13 },
+    { "sentence": "te tes beaux yeux", "offset": 15 },
+    { "sentence": "fait couler", "offset": 2 },
+    { "sentence": "quand le fim", "offset": 2 },
+    { "sentence": "va se réparer", "offset": 7 }
+  ],
+  "Dm7": [
+    { "sentence": "une trace", "offset": 8 },
+     { "sentence": "ta voix s'efface", "offset": 14 },
+    { "sentence": "j'ai pas décidé", "offset": 6 },
+    { "sentence": "fait le tri", "offset": 2 },
+    { "sentence": "contre champ", "offset": 12 }
+  ],
+  "Dm7b5": [
+    { "sentence": "tous les deux", "offset": 9 },
+    { "sentence": "arrivé d'mieux", "offset": 13 },
+    { "sentence": "de tout oublier", "offset": 7 },
+    { "sentence": "floutera les plans", "offset": 13 }
+  ]
+}
