@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="manifest" href="manifest.json">
-  <title>Infos - Jam Session</title>
+  <title>Infos — Loloup</title>
 
   <!-- Police -->
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/style.css" />
-   <link rel="stylesheet" href="./assets/css/info.css" />
+  <link rel="stylesheet" href="./assets/css/info.css" />
 
-  <!-- Fond animé -->
+  <!-- Fond animé & nav -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
   <script type="module" src="./assets/js/navigation/navigationOverlay.js"></script>
   <script src="./assets/js/config/config.js"></script>
@@ -21,55 +21,45 @@
   <div id="background-holder"></div>
 
   <main class="info-content">
-    <h1>🎶 Les Loloup Jam</h1>
+    <h1>Les Jam Loloup</h1>
 
-    <p>Les jam du Cavendish ont lieu une fois par mois.</p>
-    <p><strong>📅 Prochaine date :</strong> (pas encore définie)</p>
-    <p><strong>📍 Adresse :</strong> 2 Rue Professeur Rollet, 69008 Lyon<br>
-    Sortie Manufacture des Tabacs – proche métro, sans soucis.</p>
+    <section>
+      <p><strong>Loloup</strong> est un collectif de musiciennes et musiciens, orienté improvisation et partage. On organise des <strong>jam sessions ouvertes</strong> : tous styles, tous niveaux, bonne ambiance obligatoire.</p>
+    </section>
 
-    <p><strong>🕗 Départ :</strong> 20h</p>
-
-    <p><strong>🎸 Sur place :</strong> guitare électrique, basse, micro, batterie, clavier.</p>
-
-    <p>Les jam sont <strong>ouvertes à toutes et tous</strong>, tous niveaux et tous styles.</p>
-
-    <p>
-      Principalement basées sur l’improvisation, mais nous jouons aussi quelques morceaux au cours de la soirée.
-      La seule règle : <strong>partage et bienveillance</strong> 💜.
-    </p>
-
-    <p>
-      Amenez un bon esprit et nous vous donnerons un grand sourire 😊.
-    </p>
-
-    <p>
-      📸 Des photos sont prises (quand j’ai le temps ^^) et publiées sur Instagram :
-      <strong>@loloup_prod</strong><br>
-      Vous pouvez bien sûr me demander les photos en tant que participant.
-    </p>
-
-    <p>
-      En plus de la jam du Cavendish, nous avons aussi :
+    <section>
+      <h2>📅 Quand&nbsp;?</h2>
       <ul>
-        <li>🎶 Les jam de la salle des Rancy (reprise en septembre)</li>
-        <li>🎹 Des sessions hebdo en petit comité pour les débutants (sans public, reprise en septembre)</li>
+        <li><strong>1×/mois</strong> à la <em>Salle des Rancy</em> — départ <strong>20h</strong></li>
+        <li><strong>1×/mois</strong> au <em>Cavendish</em> — départ <strong>20h</strong></li>
       </ul>
-    </p>
+      <p>Les dates sont annoncées sur Instagram&nbsp;: <strong>@loloup_prod</strong></p>
+    </section>
 
-    <p>
-      Concernant ce site (encore en construction) :
-      n’hésitez pas à faire vos retours (en vrai ou par message Instagram).
-    </p>
+    <section>
+      <h2>📍 Où&nbsp;?</h2>
+      <ul>
+        <li>
+          <strong>Salle des Rancy</strong><br>
+          249 Rue Vendôme, 69003 Lyon — vers <em>Saxe-Gambetta</em>
+        </li>
+        <li>
+          <strong>Le Cavendish</strong><br>
+          2 Rue Professeur Rollet, 69008 Lyon — vers <em>Sans-Souci</em>
+        </li>
+      </ul>
+    </section>
 
-    <p>
-      🧪 Commande disponible par le chat :<br>
-      <code>/all jour</code> — pour afficher les messages d’un jour<br>
-      <code>/all jourMoisAnnée HeureDébut HeureFin</code> — pour filtrer une plage horaire<br>
-      Exemple : <code>/all 210725 19 00</code> → pour voir tous les messages de la jam du 21 juillet, entre 19h et minuit ✨
-    </p>
+    <section>
+      <h2>🎓 Apprendre & progresser</h2>
+      <p>Chaque semaine, on propose aussi des <strong>sessions locales sans public</strong> pour celles et ceux qui veulent travailler l’impro sérieusement.</p>
+      <p>Le collectif est animé par <strong>Hugo</strong> et <strong>Moi</strong>, deux musiciens tournés vers <strong>l’enseignement</strong> et <strong>l’improvisation</strong>.</p>
+    </section>
 
-    <p>Contemplez les bêtises… ou les messages d’amour 💌</p>
+    <section>
+      <h2>📲 Suivre l’actu</h2>
+      <p>Photos, vidéos et prochaines dates&nbsp;: <strong>@loloup_prod</strong> sur Instagram.</p>
+    </section>
   </main>
 
   <!-- Charger le fond animé -->
@@ -80,6 +70,7 @@
       document.body.appendChild(script);
     });
   </script>
-  <a href="index.html" id="navigation-overlay">⬅️</a>
+
+  <a href="index.html" id="navigation-overlay" aria-label="Retour à l’accueil">⬅️</a>
 </body>
 </html>
