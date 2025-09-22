@@ -110,25 +110,29 @@ let accueilSketch = (p) => {
 
   function repositionButtons() {
     let isPortrait = p.height > p.width;
-    if (buttons.length === 4) {
+    if (buttons.length === 5) {
       if (!isPortrait) {
-        buttons[0].x = p.width * 0.3;
+        buttons[0].x = p.width * 0.25;
         buttons[0].y = p.height / 2;
-        buttons[1].x = p.width * 0.5;
+        buttons[1].x = p.width * 0.41;
         buttons[1].y = p.height / 2;
-        buttons[2].x = p.width * 0.7;
+        buttons[2].x = p.width * 0.57;
         buttons[2].y = p.height / 2;
-        buttons[3].x = p.width * 0.9;
+        buttons[3].x = p.width * 0.73;
         buttons[3].y = p.height / 2;
+        buttons[4].x = p.width * 0.88;
+        buttons[4].y = p.height / 1.4;
       } else {
         buttons[0].x = p.width / 2;
-        buttons[0].y = p.height * 0.4;
+        buttons[0].y = p.height * 0.35;
         buttons[1].x = p.width / 2;
-        buttons[1].y = p.height * 0.58;
+        buttons[1].y = p.height * 0.51;
         buttons[2].x = p.width / 2;
-        buttons[2].y = p.height * 0.76;
-        buttons[3].x = p.width / 1.25;
-        buttons[3].y = p.height * 0.85;
+        buttons[2].y = p.height * 0.67;
+        buttons[3].x = p.width / 2;
+        buttons[3].y = p.height * 0.83;
+        buttons[4].x = p.width * 0.83;
+        buttons[4].y = p.height / 1.69;
       }
     }
   }
@@ -154,8 +158,9 @@ let accueilSketch = (p) => {
     p.textFont(baloo);
 
     buttons = [
-      new CircleButton("Accords", "tablatures.html", p.width * 0.3, p.height / 2, p.color('#FF5F9E')),
+      new CircleButton("Grilles", "tablatures.html", p.width * 0.3, p.height / 2, p.color('#FF5F9E')),
       new CircleButton("Paroles", "paroles.html", p.width * 0.5, p.height / 2, p.color('#00F0FF')),
+      new CircleButton("Tabs", "paroleChords.html", p.width * 0.5, p.height / 2, p.color('#c353daff')),
       new CircleButton("Infos", "info.html", p.width * 0.7, p.height / 2, p.color('#FFF275')),
       new MinorButton("Photo !", "camera.html", p.width * 0.9, p.height / 1.4, p.color('#B388EB')),
     ];

@@ -10,8 +10,34 @@ const form = document.getElementById('chat-form');
 // Référence Firebase pour les messages
 const messagesRef = ref(db, 'messages');
 
+// Constantes de temps
+const DISPLAY_TIME = 15000;   // Temps visible avant fade-out
+const FADE_MS = 1000;        // Durée du fade-out
+const STAGGER_MS = 100;      // Décalage entre apparitions
+
+// File d’attente des messages
+const msgQueue = [];
+let processing = false;
+
+function enqueueMessage(text) {
+  msgQueue.push(text);
+  if (!processing) processQueue();
+}
+
+function processQueue() {
+  if (msgQueue.length === 0) {
+    processing = false;
+    return;
+  }
+  processing = true;
+  const text = msgQueue.shift();
+  displayMessage(text);
+  setTimeout(processQueue, STAGGER_MS);
+}
+
 // 🕒 Heure actuelle au moment du chargement
 const now = Date.now();
+
 // Envoi d’un message
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -34,7 +60,6 @@ form.addEventListener('submit', (e) => {
         document.querySelectorAll('.floating-message').forEach(el => el.remove());
       }
       // Tu peux ajouter d'autres commandes ici
-
     } else {
       push(messagesRef, {
         text: text,
@@ -45,16 +70,11 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-
-
 // Réception — uniquement les messages récents
-
 let showHistory = false;
-
 
 onChildAdded(messagesRef, (snapshot) => {
   const message = snapshot.val();
-
   if (!message || typeof message.text !== 'string') return;
 
   const ts = Number(message.timestamp);
@@ -62,8 +82,7 @@ onChildAdded(messagesRef, (snapshot) => {
   // Ne pas afficher les anciens messages si en mode "live only"
   if (!showHistory && ts < now) return;
 
-
-  displayMessage(message.text);
+  enqueueMessage(message.text);
 });
 
 function showAllMessages(dateStr, startHour, endHour) {
@@ -95,25 +114,23 @@ function showAllMessages(dateStr, startHour, endHour) {
         console.log(`🕓 Filtrage entre ${start} (${startTs}) et ${end} (${endTs})`);
       }
 
-      for (let key in data) {
-        const msg = data[key];
-        const ts = Number(msg.timestamp);
+      // Trie par timestamp pour garder l’ordre
+      const list = Object.values(data)
+        .filter(msg => msg && typeof msg.text === 'string')
+        .filter(msg => {
+          const ts = Number(msg.timestamp);
+          return ts >= startTs && ts <= endTs;
+        })
+        .sort((a, b) => a.timestamp - b.timestamp);
 
-        if (
-          msg && typeof msg.text === 'string' &&
-          ts >= startTs && ts <= endTs
-        ) {
-          console.log(`✅ Match: ${msg.text} @ ${new Date(ts).toLocaleString()}`);
-          displayMessage(msg.text);
-        } else {
-          console.log(`❌ Ignored: ${msg.text} @ ${new Date(ts).toLocaleString()}`);
-        }
+      for (const msg of list) {
+        enqueueMessage(msg.text);
       }
     }
 
     // 🔥 Affichage des photos après les messages
     loadAllPictures((url) => {
-      displayMessage('photo:' + url);
+      enqueueMessage('photo:' + url);
     });
   });
 }
@@ -140,8 +157,8 @@ function displayMessage(text) {
     const img = document.createElement('img');
     img.src = url;
     img.alt = 'Jam Photo';
-    img.style.maxWidth = '10vw';
-    img.style.maxHeight = '10vh';
+    img.style.maxWidth = '30vw';
+    img.style.maxHeight = '30vh';
     img.style.borderRadius = '1rem';
     img.style.boxShadow = `0 0 20px ${color}`;
     img.style.pointerEvents = 'none';
@@ -170,11 +187,12 @@ function displayMessage(text) {
 
   document.body.appendChild(el);
 
+  // Timers : affichage + fade-out
   setTimeout(() => {
     el.classList.add('fade-out');
     setTimeout(() => {
       el.remove();
       style.remove(); // Nettoyage
-    }, 1000);
-  }, 4000);
+    }, FADE_MS);
+  }, DISPLAY_TIME);
 }
