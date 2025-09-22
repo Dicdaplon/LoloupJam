@@ -43,20 +43,29 @@ window.addEventListener('DOMContentLoaded', () => {
   "Le saviez-vous ?\nLes musiciens funk ne vieillissent pas,\nils s’évaporent en vapeur de sueur\nparfumée au patchouli.",
   "Le saviez-vous ?\nDans la chanson française,\nla pluie est un personnage principal.",
   "Le saviez-vous ?\nLes textes de chanson française\nsont si poétiques que personne\nne sait vraiment de quoi ils parlent.",
-  "Le saviez-vous ?\nUn chanteur français ne respire pas :\nil soupire en rimes."
-    
+  "Le saviez-vous ?\nUn chanteur français ne respire pas :\nil soupire en rimes.",
+   "Il n’y a pas de fausses notes !\n… seulement des notes mal placées,\nmal choisies et qui n’ont rien à faire là.",
+  "Le saviez-vous ?\nUne arythmie n’est pas\nune nuance de jeu.\nVeuillez consulter.",
+  "Today is *not* gonna be the day.\nArrêtez ça tout de suite.",
+  "Le premier qui crie\nROOOOOXanne entre\nsur ma liste rouge.",
+  "Le saviez-vous ?\nLes bassistes à 5 cordes sont\ndes guitaristes qui n’ont pas\nréussi à se racheter un jeu.",
+  "La batterie, c’est facile :\nil suffit de taper…\nmais au bon endroit,\nau bon moment,\net pas trop fort.",
+  "Le métronome n’est pas votre ennemi…\nle batteur peut le devenir.",
+  "La basse à 4 cordes, c’est classique.\nÀ 5, c’est suspect.\nÀ 6, c’est un aveu.",
+  "Le saviez-vous ?\nLe silence est aussi une note.\nLa préférée des voisins.",
+  "Les pianistes comptent toujours\nsur leurs dix doigts.\nLes autres, sur la chance."
   ];
 
   let lastClickTime = 0; // timestamp du dernier clic
 
-  logo.addEventListener('click', () => {
+  function showMessage() {
     const now = Date.now();
-    if (now - lastClickTime < 2000) return; // bloque si moins d'1 seconde
+    if (now - lastClickTime < 4000) return; // bloque si trop rapproché
     lastClickTime = now;
 
     // Shake
     logo.classList.add('shake');
-    setTimeout(() => logo.classList.remove('shake'), 600);
+    setTimeout(() => logo.classList.remove('shake'), 2000);
 
     // Choix aléatoire
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
@@ -65,12 +74,26 @@ window.addEventListener('DOMContentLoaded', () => {
     const message = document.createElement('div');
     message.className = 'floating-message-loloup';
     const rect = logo.getBoundingClientRect();
-    message.style.left = rect.left + rect.width / 1 + 'px';
-    message.style.top = rect.top + rect.height / 3 + window.scrollY + 'px';
+    message.style.left = rect.left + window.scrollX + rect.width + 'px';
+    message.style.top = rect.top + window.scrollY + rect.height / 3 + 'px';
     message.innerText = randomMessage;
 
     document.body.appendChild(message);
-    setTimeout(() => message.classList.add('fade-out'), 3000);
-    setTimeout(() => message.remove(), 4000);
-  });
+    setTimeout(() => message.classList.add('fade-out'), 4000);
+    setTimeout(() => message.remove(), 6000);
+  }
+
+  // clic manuel
+  logo.addEventListener('click', showMessage);
+
+  // déclenche auto toutes les minutes
+  const AUTO_INTERVAL_MS =30_000;
+  setInterval(() => {
+    if (!document.hidden) {
+      showMessage();
+    }
+  }, AUTO_INTERVAL_MS);
+
+  // premier lancement auto dès le chargement
+  showMessage();
 });
