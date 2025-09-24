@@ -3,12 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-"scripts": {
-  "build": "cross-env BUILD=true vite build",
-  "dev": "vite",
-  "preview": "serve ../react"
-},
+  "scripts": {
+    "build": "cross-env BUILD=true vite build",
+    "dev": "vite",
+    "preview": "serve ../react"
+  },
   "dependencies": {
+    "pixi.js": "^8.13.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="manifest.json">
+  <title>Infos — Loloup</title>
+
+  <!-- Police -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/info.css" />
+
+  <!-- Fond animé & nav -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
+  <script type="module" src="./src/assets/js/navigation/navigationOverlay.js"></script>
+  <script src="./src/assets/js/config/config.js"></script>
+</head>
+
+<body class="scrollable">
+  <div id="background-holder"></div>
+
+  <main class="info-content">
+    <h1>Les Jam Loloup</h1>
+
+    <section>
+      <p><strong>Loloup</strong> est un collectif de musiciennes et musiciens, orienté improvisation et partage. On organise des <strong>jam sessions ouvertes</strong> : tous styles, tous niveaux, bonne ambiance obligatoire.</p>
+    </section>
+
+    <section>
+      <h2>📅 Quand&nbsp;?</h2>
+      <ul>
+        <li><strong>1×/mois</strong> à la <em>Salle des Rancy</em> — départ <strong>20h</strong></li>
+        <li><strong>1×/mois</strong> au <em>Cavendish</em> — départ <strong>20h</strong></li>
+      </ul>
+      <p>Les dates sont annoncées sur Instagram&nbsp;: <strong>@loloup_prod</strong></p>
+    </section>
+
+    <section>
+      <h2>📍 Où&nbsp;?</h2>
+      <ul>
+        <li>
+          <strong>Salle des Rancy</strong><br>
+          249 Rue Vendôme, 69003 Lyon — vers <em>Saxe-Gambetta</em>
+        </li>
+        <li>
+          <strong>Le Cavendish</strong><br>
+          2 Rue Professeur Rollet, 69008 Lyon — vers <em>Sans-Souci</em>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🎓 Apprendre & progresser</h2>
+      <p>Chaque semaine, on propose aussi des <strong>sessions locales sans public</strong> pour celles et ceux qui veulent travailler l’impro sérieusement.</p>
+      <p>Le collectif est animé par <strong>Hugo</strong> et <strong>Moi</strong>, deux musiciens tournés vers <strong>l’enseignement</strong> et <strong>l’improvisation</strong>.</p>
+    </section>
+
+    <section>
+      <h2>📲 Suivre l’actu</h2>
+      <p>Photos, vidéos et prochaines dates&nbsp;: <strong>@loloup_prod</strong> sur Instagram.</p>
+    </section>
+  </main>
+
+  <!-- Charger le fond animé -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const script = document.createElement('script');
+      script.src = './src/assets/js/visual/background.js';
+      document.body.appendChild(script);
+    });
+  </script>
+
+  <a href="index.html" id="navigation-overlay" aria-label="Retour à l’accueil">⬅️</a>
+</body>
+</html>

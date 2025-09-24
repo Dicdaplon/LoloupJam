@@ -1,14 +1,54 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/react/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-    <script type="module" crossorigin src="/react/assets/index-DRLsjrxU.js"></script>
-    <link rel="stylesheet" crossorigin href="/react/assets/index-D8b4DHJx.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json">
+  <title>Jam Session</title>
+
+  <!-- Fonts & Style -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css" />
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.min.js"></script>
+  <script src="src/assets/js/config/config.js"></script>
+  <script type="module" crossorigin src="./assets/index-DPcqtTmu.js"></script>
+</head>
+<body>
+  <div id="background-holder"></div>
+  <img src="data/HDexportLogo.png" alt="Logo Jam" id="logo" />
+
+  <form id="chat-form">
+    <input type="text" id="chat-input" placeholder="Message pour tous !" autocomplete="off" />
+  </form>
+
+  <!-- Script de visualisation p5.js -->
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const script = document.createElement('script');
+      script.src = './src/assets/js/visual/background.js';
+      document.body.appendChild(script);
+    });
+  </script>
+
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const script = document.createElement('script');
+      script.src = './src/assets/js/visual/visual.js';
+      document.body.appendChild(script);
+    });
+  </script>
+<script src="src/assets/js/visual/logo.js"></script>
+  <!-- Script de chat -->
+
+  <!-- Position flottante en bas à droite (au-dessus de p5) -->
+<div
+  data-jam-clock='{"windows":["21:00-23:59","00:00-02:00"],"behavior":"toggle-color"}'
+  style="position:fixed; right:12px; bottom:12px; z-index:6; width:280px; height:110px"
+></div>
+
+<!-- Script d’auto-montage (servi par Vite en dev, bundlé en build) -->
+</body>
 </html>
